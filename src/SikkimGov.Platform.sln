@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.960
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SikkimGov.Platform.DataAccess", "SikkimGov.Platform.DataAccess\SikkimGov.Platform.DataAccess.csproj", "{EC360E04-4EB1-44BE-8B76-006669039799}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SikkimGov.Platform.DataAccess", "SikkimGov.Platform.DataAccess\SikkimGov.Platform.DataAccess.csproj", "{EC360E04-4EB1-44BE-8B76-006669039799}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SikkimGov.Platform.Models", "SikkimGov.Platform.Models\SikkimGov.Platform.Models.csproj", "{EB9B1B2A-526E-477A-ACA0-93A3F656F0FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SikkimGov.Platform.Models", "SikkimGov.Platform.Models\SikkimGov.Platform.Models.csproj", "{EB9B1B2A-526E-477A-ACA0-93A3F656F0FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SikkimGov.Platform.Api", "SikkimGov.Platform.Api\SikkimGov.Platform.Api.csproj", "{95CF569A-12BD-42C6-89AC-F6E1F3338236}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SikkimGov.Platform.Api", "SikkimGov.Platform.Api\SikkimGov.Platform.Api.csproj", "{95CF569A-12BD-42C6-89AC-F6E1F3338236}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SikkimGov.Platform.Business", "SikkimGov.Platform.Business\SikkimGov.Platform.Business.csproj", "{44A20C9A-020C-4366-974A-6F1EDBCEFF09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{95CF569A-12BD-42C6-89AC-F6E1F3338236}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95CF569A-12BD-42C6-89AC-F6E1F3338236}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95CF569A-12BD-42C6-89AC-F6E1F3338236}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44A20C9A-020C-4366-974A-6F1EDBCEFF09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44A20C9A-020C-4366-974A-6F1EDBCEFF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44A20C9A-020C-4366-974A-6F1EDBCEFF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44A20C9A-020C-4366-974A-6F1EDBCEFF09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
