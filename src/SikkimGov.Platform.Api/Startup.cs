@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SikkimGov.Platform.Business.Services;
+using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.DataAccess.Repositories;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 
@@ -28,6 +30,8 @@ namespace SikkimGov.Platform.Api
         {
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IDDORepository, DDORepository>();
+            services.AddScoped<IDDORegistrationRepository, DDORegistrationRepository>();
+            services.AddScoped<IDDORegistraionService, DDORegistraionService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

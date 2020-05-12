@@ -4,6 +4,6 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 {
     public interface IDDORegistrationRepository
     {
-        void SaveDDORegistration(DDORegistration ddoRegistration);
+        DDORegistration SaveDDORegistration(DDORegistration ddoRegistration);
     }
 }

@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SikkimGov.Platform.Business\SikkimGov.Platform.Business.csproj" />
     <ProjectReference Include="..\SikkimGov.Platform.DataAccess\SikkimGov.Platform.DataAccess.csproj" />
     <ProjectReference Include="..\SikkimGov.Platform.Models\SikkimGov.Platform.Models.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 using SikkimGov.Platform.DataAccess.Core;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.DomainModels;
@@ -9,7 +10,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
     {
         private const string DDO_REG_SAVE_COMMAND = "P_DDO_REGISTRATION_INS";
 
-        public void SaveDDORegistration(DDORegistration ddoRegistration)
+        public DDORegistration SaveDDORegistration(DDORegistration ddoRegistration)
         {
             using (var connection = GetConnection())
             {
@@ -43,8 +44,11 @@ namespace SikkimGov.Platform.DataAccess.Repositories
 
                     command.ExecuteNonQuery();
 
+                    ddoRegistration.Id = Convert.ToInt64(command.Parameters["@RETURN_ID"].Value);
+
                 }
             }
+            return ddoRegistration;
         }
     }
 }
