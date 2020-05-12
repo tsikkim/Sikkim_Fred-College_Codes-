@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using SikkimGov.Platform.DataAccess.Core;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
@@ -54,12 +53,12 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                         {
                             var ddoDetails = new DDODetails();
                             ddoDetails.Id = reader.GetInt32(0);
-                            ddoDetails.DepartmentId = reader.GetInt32(1);
+                            ddoDetails.DepartmentId = reader.GetByte(1);
                             ddoDetails.Code = reader.GetString(2);
-                            ddoDetails.Name = reader.GetName(3);
+                            ddoDetails.Name = reader.GetString(3);
                             ddoDetails.DesignationId = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
                             ddoDetails.DesignationName = reader.IsDBNull(5) ? "" : reader.GetString(5);
-                            ddoDetails.DistrictId = reader.IsDBNull(6) ? 0 : reader.GetInt32(6);
+                            ddoDetails.DistrictId = reader.IsDBNull(6) ? 0 : reader.GetInt16(6);
                             ddoDetails.DistrictName = reader.IsDBNull(7) ? "" : reader.GetString(7);
 
                             return ddoDetails;
