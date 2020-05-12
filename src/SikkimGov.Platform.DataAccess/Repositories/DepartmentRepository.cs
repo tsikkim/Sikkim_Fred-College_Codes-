@@ -9,7 +9,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
 {
     public class DepartmentRepository : BaseRepository, IDepartmentRepository
     {
-        private const string DEPT_READ_COMMAND = "P_READ_DEPT";
+        private const string DEPT_READ_COMMAND = "P_READ_DEMAND";
         public List<Department> GetAllDepartments()
         {
             var departments = new List<Department>();
@@ -26,7 +26,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                         while(reader.Read())
                         {
                             var dep = new Department();
-                            dep.Id = reader.GetInt64(0);
+                            dep.Id = reader.GetInt32(0);
                             dep.Name = reader.GetString(1);
                             departments.Add(dep);
                         }
@@ -53,7 +53,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                         if (reader.Read())
                         {
                             var department = new Department();
-                            department.Id = reader.GetInt64(0);
+                            department.Id = reader.GetInt32(0);
                             department.Name = reader.GetString(1);
                             return department;
                         }
