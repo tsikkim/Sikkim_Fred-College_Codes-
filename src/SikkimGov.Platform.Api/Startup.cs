@@ -31,7 +31,9 @@ namespace SikkimGov.Platform.Api
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IDDORepository, DDORepository>();
             services.AddScoped<IDDORegistrationRepository, DDORegistrationRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDDORegistraionService, DDORegistraionService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
