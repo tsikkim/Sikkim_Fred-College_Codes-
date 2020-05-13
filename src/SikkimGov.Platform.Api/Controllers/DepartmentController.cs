@@ -24,9 +24,14 @@ namespace SikkimGov.Platform.Api.Controllers
 
         // GET: api/Department/5
         [HttpGet("{id}", Name = "Get")]
-        public Department Get(int id)
+        public ActionResult<Department> Get(int id)
         {
-            return this.departmentRepository.GetDepartmentById(id);
+            var department = this.departmentRepository.GetDepartmentById(id);
+
+            if (department != null)
+                return department;
+            else
+                return NotFound();
         }
     }
 }

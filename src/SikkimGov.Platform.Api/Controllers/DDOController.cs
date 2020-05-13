@@ -24,9 +24,13 @@ namespace SikkimGov.Platform.Api.Controllers
 
         [Route("details")]
         [HttpGet]
-        public DDODetails GetDDODetails([FromQuery]string ddoCode)
+        public ActionResult<DDODetails> GetDDODetails([FromQuery]string ddoCode)
         {
-            return this.ddoRepository.GetDDODetailsByDDOCode(ddoCode);
+            var ddoDetails = this.ddoRepository.GetDDODetailsByDDOCode(ddoCode);
+            if (ddoDetails != null)
+                return ddoDetails;
+            else
+                return NotFound();
         }
     }
 }
