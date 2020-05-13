@@ -29,7 +29,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                     command.Parameters.Add(parameter);
                     parameter = new SqlParameter("@OFFICE_ADD_2", ddoRegistration.OfficeAddress2);
                     command.Parameters.Add(parameter);
-                    parameter = new SqlParameter("@TIN_NO", ddoRegistration.TINNumber);
+                    parameter = new SqlParameter("@TIN_NO", string.IsNullOrEmpty(ddoRegistration.TINNumber) ? "" : ddoRegistration.TINNumber);
                     command.Parameters.Add(parameter);
                     parameter = new SqlParameter("@TAN_NO", ddoRegistration.TANNumber);
                     command.Parameters.Add(parameter);
