@@ -36,6 +36,14 @@ namespace SikkimGov.Platform.Api
             services.AddScoped<IRCORegistrationRepository, RCORegistrationRepository>();
             services.AddScoped<IRCORegistrationService, RCORegistrationService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                                .AllowAnyMethod()
+                                .AllowAnyHeader());
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -46,7 +54,7 @@ namespace SikkimGov.Platform.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors("CorsPolicy");
             app.UseMvc();
         }
     }
