@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Models.ApiModels;
 using SikkimGov.Platform.Models.DomainModels;
@@ -20,12 +22,21 @@ namespace SikkimGov.Platform.Api.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] DDORegistrationModel ddoRegistration)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            else
+            try
             {
-                var createdDDO = this.registraionService.SaveRegistration(ddoRegistration);
-                return CreatedAtAction(nameof(Get), new { id = createdDDO.Id }, createdDDO);
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                else
+                {
+                    this.registraionService.SaveRegistration(ddoRegistration);
+                    this.Response.StatusCode = (int)HttpStatusCode.Created;
+                    return new EmptyResult();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.Created;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
         }
 
