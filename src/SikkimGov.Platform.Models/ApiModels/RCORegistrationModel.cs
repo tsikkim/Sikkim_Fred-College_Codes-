@@ -2,27 +2,31 @@
 
 namespace SikkimGov.Platform.Models.ApiModels
 {
-    public class DDORegistrationModel
+    public class RCORegistrationModel
     {
+        public int Id { get; set; }
+
         [Required]
-        public int DepartmentId { get; set; }
+        public string AdminName { get; set; }
         [Required]
-        public string DDOCode { get; set; }
+        public string RegistrationType { get; set; }
         [Required]
-        public int DesignationId { get; set; }
+        public string Department { get; set; }
         [Required]
-        public int DistrictId { get; set; }
+        public string Designation { get; set; }
         [Required]
+        public string District { get; set; }
         public string OfficeAddress1 { get; set; }
+        [Required]
         public string OfficeAddress2 { get; set; }
         public string TINNumber { get; set; }
         [Required]
         public string TANNumber { get; set; }
         [Required]
-        [EmailAddress(ErrorMessage ="EmailId is not valid.")]
+        [EmailAddress(ErrorMessage = "EmailId is not valid.")]
         public string EmailId { get; set; }
         [Required]
-        [RegularExpression(@"^\d{10}$", ErrorMessage ="Contact number should be 10 digits.")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Contact number should be 10 digits.")]
         public string ContactNumber { get; set; }
     }
 }
