@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SikkimGov.Platform.Models",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SikkimGov.Platform.Api", "SikkimGov.Platform.Api\SikkimGov.Platform.Api.csproj", "{95CF569A-12BD-42C6-89AC-F6E1F3338236}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SikkimGov.Platform.Business", "SikkimGov.Platform.Business\SikkimGov.Platform.Business.csproj", "{44A20C9A-020C-4366-974A-6F1EDBCEFF09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SikkimGov.Platform.Business", "SikkimGov.Platform.Business\SikkimGov.Platform.Business.csproj", "{44A20C9A-020C-4366-974A-6F1EDBCEFF09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SikkimGov.Platform.Common", "SikkimGov.Platform.Common\SikkimGov.Platform.Common.csproj", "{A3A844F3-79E2-4216-8EEC-CB2E0C307A48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{44A20C9A-020C-4366-974A-6F1EDBCEFF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44A20C9A-020C-4366-974A-6F1EDBCEFF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44A20C9A-020C-4366-974A-6F1EDBCEFF09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3A844F3-79E2-4216-8EEC-CB2E0C307A48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3A844F3-79E2-4216-8EEC-CB2E0C307A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3A844F3-79E2-4216-8EEC-CB2E0C307A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3A844F3-79E2-4216-8EEC-CB2E0C307A48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
