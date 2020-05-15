@@ -1,4 +1,5 @@
-﻿using SikkimGov.Platform.Business.Services.Contracts;
+﻿using System.Collections.Generic;
+using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.ApiModels;
 using SikkimGov.Platform.Models.DomainModels;
@@ -29,6 +30,16 @@ namespace SikkimGov.Platform.Business.Services
             ddoRegistration.TANNumber = registration.TANNumber;
 
             return  this.repository.SaveDDORegistration(ddoRegistration);
+        }
+
+        public List<DDORegistration> GetPendingRegistrations()
+        {
+            return new List<DDORegistration>();
+        }
+
+        public List<DDORegistration> GetApprovedRegistratins()
+        {
+            return new List<DDORegistration>();
         }
     }
 }

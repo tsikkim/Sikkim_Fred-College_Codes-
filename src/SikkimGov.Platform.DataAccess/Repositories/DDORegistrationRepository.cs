@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using SikkimGov.Platform.DataAccess.Core;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
@@ -9,6 +10,8 @@ namespace SikkimGov.Platform.DataAccess.Repositories
     public class DDORegistrationRepository : BaseRepository, IDDORegistrationRepository
     {
         private const string DDO_REG_SAVE_COMMAND = "P_DDO_REGISTRATION_INS";
+
+        private const string DDO_REG_GET_BY_STATUS_COMMAND = "P_DDO_REGISTRATION_GET_BY_STATUS";
 
         public DDORegistration SaveDDORegistration(DDORegistration ddoRegistration)
         {
@@ -49,6 +52,11 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                 }
             }
             return ddoRegistration;
+        }
+
+        public List<DDORegistration> GetDDORegistrationsByStatus(bool status)
+        {
+            return new List<DDORegistration>();
         }
     }
 }
