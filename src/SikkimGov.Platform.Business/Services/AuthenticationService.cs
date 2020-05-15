@@ -35,8 +35,8 @@ namespace SikkimGov.Platform.Business.Services
                     result.IsAdmin = user.IsAdmin;
                     result.DDOCode = user.DDOCode;
                     result.DepartmentId = user.DepartmentId.HasValue ? user.DepartmentId.Value : 0;
-                    result.IsDDO = user.IsDDO;
-                    result.IsRCO = user.IsRCO;
+                    result.IsDDO = user.IsDDOUser;
+                    result.IsRCO = user.IsRCOUser;
                     result.IsSuperAdmin = user.IsSuperAdmin;
                     result.UserId = user.Id;
 

@@ -7,5 +7,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
         User GetUserByUserName(string userName);
 
         bool IsUserExists(string userName);
+
+        User SaveUser(User user);
     }
 }

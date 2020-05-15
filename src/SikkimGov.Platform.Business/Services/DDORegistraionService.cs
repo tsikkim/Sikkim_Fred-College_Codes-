@@ -9,10 +9,12 @@ namespace SikkimGov.Platform.Business.Services
     public class DDORegistraionService : IDDORegistraionService
     {
         private readonly IDDORegistrationRepository repository;
+        private readonly IUserService userService;
 
-        public DDORegistraionService(IDDORegistrationRepository repository)
+        public DDORegistraionService(IDDORegistrationRepository repository, IUserService userService)
         {
             this.repository = repository;
+            this.userService = userService;
         }
 
         public DDORegistration SaveRegistration(DDORegistrationModel registration)
@@ -29,7 +31,19 @@ namespace SikkimGov.Platform.Business.Services
             ddoRegistration.TINNumber = registration.TINNumber;
             ddoRegistration.TANNumber = registration.TANNumber;
 
-            return  this.repository.SaveDDORegistration(ddoRegistration);
+            var newRegistration = this.repository.SaveDDORegistration(ddoRegistration);
+
+            var user = new User();
+            user.DDOCode = registration.DDOCode;
+            user.IsDDOUser = true;
+            user.UserName = registration.EmailId;
+            user.EmailId = registration.EmailId;
+            user.DepartmentId = registration.DepartmentId;
+
+            this.userService.SaveUser(user);
+
+            return newRegistration;
+
         }
 
         public List<DDORegistration> GetPendingRegistrations()

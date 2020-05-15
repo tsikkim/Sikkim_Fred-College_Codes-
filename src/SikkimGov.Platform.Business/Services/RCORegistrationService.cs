@@ -8,10 +8,12 @@ namespace SikkimGov.Platform.Business.Services
     public class RCORegistrationService : IRCORegistrationService
     {
         private readonly IRCORegistrationRepository repository;
+        private readonly IUserService userService;
 
-        public RCORegistrationService(IRCORegistrationRepository repository)
+        public RCORegistrationService(IRCORegistrationRepository repository, IUserService userService)
         {
             this.repository = repository;
+            this.userService = userService;
         }
 
         public RCORegistrationModel SaveRegistration(RCORegistrationModel registrationModel)
@@ -31,6 +33,14 @@ namespace SikkimGov.Platform.Business.Services
             registration.TANNumber = registrationModel.TANNumber;
 
             this.repository.SaveRCORegistration(registration);
+
+            var user = new User();
+            user.EmailId = registrationModel.EmailId;
+            user.IsRCOUser = true;
+            user.UserName = registrationModel.EmailId;
+            user.EmailId = registrationModel.EmailId;
+
+            this.userService.SaveUser(user);
 
             return registrationModel;
         }

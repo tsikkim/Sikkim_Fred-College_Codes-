@@ -28,13 +28,13 @@ namespace SikkimGov.Platform.Models.DomainModels
 
         public long? DepartmentId { get; set; }
 
-        public bool IsDDO { get; set; }
+        public bool IsDDOUser { get; set; }
 
         public bool IsSuperAdmin { get; set; }
 
         public string EmailId { get; set; }
 
-        public bool IsRCO { get; set; }
+        public bool IsRCOUser { get; set; }
 
         public string DDOCode { get; set; }
     }
