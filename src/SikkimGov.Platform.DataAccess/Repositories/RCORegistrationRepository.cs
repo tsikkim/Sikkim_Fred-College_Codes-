@@ -41,9 +41,17 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                     command.Parameters.Add(parameter);
                     parameter = new SqlParameter("@RCO_Entry_Time", DBNull.Value);
                     command.Parameters.Add(parameter);
+                    parameter = new SqlParameter("@RETURN_ID", System.Data.SqlDbType.BigInt);
+                    parameter.Direction = System.Data.ParameterDirection.Output;
+                    command.Parameters.Add(parameter);
+
                     connection.Open();
 
                     command.ExecuteNonQuery();
+
+                    var newId = Convert.ToInt64(command.Parameters["@RETURN_ID"].Value);
+
+                    rcoRegistration.Id = newId;
                 }
             }
             return rcoRegistration;

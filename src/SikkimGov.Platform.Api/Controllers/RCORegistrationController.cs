@@ -19,7 +19,7 @@ namespace SikkimGov.Platform.Api.Controllers
 
         // POST: api/RCORegistration
         [HttpPost]
-        public ActionResult Post([FromBody] RCORegistrationModel ddoRegistration)
+        public ActionResult Post([FromBody] RCORegistrationModel rcoRegistration)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace SikkimGov.Platform.Api.Controllers
                     return BadRequest(ModelState);
                 else
                 {
-                    this.registraionService.SaveRegistration(ddoRegistration);
+                    this.registraionService.SaveRegistration(rcoRegistration);
                     this.Response.StatusCode = (int)HttpStatusCode.Created;
                     return new EmptyResult();
                 }

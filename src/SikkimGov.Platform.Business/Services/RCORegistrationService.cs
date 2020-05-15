@@ -33,7 +33,6 @@ namespace SikkimGov.Platform.Business.Services
             this.repository.SaveRCORegistration(registration);
 
             return registrationModel;
-
         }
     }
 }

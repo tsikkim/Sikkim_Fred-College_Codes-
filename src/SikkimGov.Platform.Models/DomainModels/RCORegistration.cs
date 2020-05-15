@@ -4,6 +4,7 @@ namespace SikkimGov.Platform.Models.DomainModels
 {
     public class RCORegistration
     {
+        public long Id { get; set; }
         public string AdminName { get; set; }
         public string RegistrationType { get; set; }
         public string Department { get; set; }
