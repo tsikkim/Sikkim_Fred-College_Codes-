@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SikkimGov.Platform.Business.Services.Contracts;
@@ -46,7 +47,8 @@ namespace SikkimGov.Platform.Api.Controllers
                     }
                     else
                     {
-                        return BadRequest("Invalid username or password.");
+                        this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        return new JsonResult(new { Error = new { Message = "Invalid username or password." } });
                     }
                 }
             }
