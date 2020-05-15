@@ -30,7 +30,7 @@ namespace SikkimGov.Platform.Models.DomainModels
 
         public bool IsDDO { get; set; }
 
-        public bool IsSuper { get; set; }
+        public bool IsSuperAdmin { get; set; }
 
         public string EmailId { get; set; }
 

@@ -2,8 +2,8 @@
 
 namespace SikkimGov.Platform.Business.Services.Contracts
 {
-    public interface IUserService
+    public interface ITokenService
     {
-        bool IsUserExists(string userName);
+        string GenerateJSONWebToken(AuthenticationResult loginResult);
     }
 }

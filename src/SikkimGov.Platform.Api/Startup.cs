@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using SikkimGov.Platform.Business.Common;
+using SikkimGov.Platform.Business.Common.Contracts;
 using SikkimGov.Platform.Business.Services;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.DataAccess.Repositories;
@@ -35,7 +31,11 @@ namespace SikkimGov.Platform.Api
             services.AddScoped<IDDORegistraionService, DDORegistraionService>();
             services.AddScoped<IRCORegistrationRepository, RCORegistrationRepository>();
             services.AddScoped<IRCORegistrationService, RCORegistrationService>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<ICryptoService, CryptoService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",

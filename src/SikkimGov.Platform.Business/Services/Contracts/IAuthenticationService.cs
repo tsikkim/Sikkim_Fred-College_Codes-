@@ -2,8 +2,8 @@
 
 namespace SikkimGov.Platform.Business.Services.Contracts
 {
-    public interface IUserService
+    public interface IAuthenticationService
     {
-        bool IsUserExists(string userName);
+        AuthenticationResult AuthenticateUser(LoginModel loginModel);
     }
 }
