@@ -30,7 +30,6 @@ namespace SikkimGov.Platform.Api.Controllers
                 else
                 {
                     this.registraionService.SaveRegistration(ddoRegistration);
-                    this.Response.StatusCode = (int)HttpStatusCode.Created;
                     return new EmptyResult();
                 }
             }
@@ -54,9 +53,30 @@ namespace SikkimGov.Platform.Api.Controllers
 
         [Route("approve")]
         [HttpPost]
-        public DDORegistration Approve(long regId)
+        public ActionResult Approve([FromBody] RegistrationApprovalModel model)
         {
-            return new DDORegistration();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                else
+                {
+                    this.registraionService.ApproveDDORegistration(model.RegId, model.ApprovedBy);
+                    return new EmptyResult();
+                }
+            }
+            catch (NotFoundException ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return new JsonResult(new { Error = new { Message = ex.Message } });
+            }
+            catch (Exception ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
         }
 
         [HttpDelete("{regId}")]

@@ -5,12 +5,14 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 {
     public interface IDDORegistrationRepository
     {
-        DDORegistration SaveDDORegistration(DDORegistration ddoRegistration);
+        DDORegistration CreateDDORegistration(DDORegistration ddoRegistration);
 
         List<DDORegistration> GetDDORegistrationsByStatus(bool status);
 
         bool DeleteDDORegistration(long ddoRegistrationId);
 
         DDORegistration GetDDORegistrationById(long ddoRegistrationId);
+
+        bool UpdateDDORegistrationStatus(long ddoRegistrationId, bool status, int updatedBy);
     }
 }

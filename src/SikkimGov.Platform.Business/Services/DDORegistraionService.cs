@@ -39,7 +39,7 @@ namespace SikkimGov.Platform.Business.Services
             ddoRegistration.TINNumber = registrationModel.TINNumber;
             ddoRegistration.TANNumber = registrationModel.TANNumber;
 
-            var newRegistration = this.repository.SaveDDORegistration(ddoRegistration);
+            var newRegistration = this.repository.CreateDDORegistration(ddoRegistration);
 
             var user = new User();
             user.DDOCode = registrationModel.DDOCode;
@@ -48,10 +48,9 @@ namespace SikkimGov.Platform.Business.Services
             user.EmailId = registrationModel.EmailId;
             user.DepartmentId = registrationModel.DepartmentId;
 
-            this.userService.SaveUser(user);
+            this.userService.CreateUser(user);
 
             return newRegistration;
-
         }
 
         public List<DDORegistration> GetPendingRegistrations()
@@ -59,14 +58,26 @@ namespace SikkimGov.Platform.Business.Services
             return new List<DDORegistration>();
         }
 
-        public List<DDORegistration> GetApprovedRegistratins()
+        public List<DDORegistration> GetApprovedRegistrations()
         {
             return new List<DDORegistration>();
         }
 
-        public void ApproveDDORegistration(long ddoRegistraionId)
+        public void ApproveDDORegistration(long ddoRegistrationId, int approvedby)
         {
-            var registration = this.repository.GetDDORegistrationById(ddoRegistraionId);
+            var registration = this.repository.GetDDORegistrationById(ddoRegistrationId);
+
+            if (registration != null)
+            {
+                var emailId = registration.EmailId;
+
+                this.repository.UpdateDDORegistrationStatus(ddoRegistrationId, true, approvedby);
+                this.userService.ApproveUser(emailId);
+            }
+            else
+            {
+                throw new NotFoundException($"DDORegistration with {ddoRegistrationId} does not exist.");
+            }
         }
 
         public void RejectDDORegistration(long ddoRegistrationId)
@@ -78,7 +89,7 @@ namespace SikkimGov.Platform.Business.Services
                 var emailId = registration.EmailId;
 
                 this.repository.DeleteDDORegistration(ddoRegistrationId);
-                this.userService.DeleteUserByEmailId(emailId);
+                this.userService.DeleteUserByUserName(emailId);
             }
             else
             {

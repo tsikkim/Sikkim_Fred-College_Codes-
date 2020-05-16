@@ -10,8 +10,10 @@ namespace SikkimGov.Platform.Business.Services.Contracts
 
         List<DDORegistration> GetPendingRegistrations();
 
-        List<DDORegistration> GetApprovedRegistratins();
+        List<DDORegistration> GetApprovedRegistrations();
 
         void RejectDDORegistration(long ddoRegistrationId);
+
+        void ApproveDDORegistration(long ddoRegistrationId, int approvedby);
     }
 }

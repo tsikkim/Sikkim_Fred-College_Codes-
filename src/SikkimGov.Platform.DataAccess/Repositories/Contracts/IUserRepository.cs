@@ -12,6 +12,8 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 
         void DeleteUser(long userId);
 
-        void DeleteUserByEmailId(string emailId);
+        void DeleteUserByUserName(string emailId);
+
+        bool UpdateUserStatusByUserName(string userName, bool status);
     }
 }

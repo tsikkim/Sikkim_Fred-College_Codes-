@@ -11,7 +11,8 @@ namespace SikkimGov.Platform.DataAccess.Repositories
         private const string IS_USER_EXIST_COMMAND = "P_READ_IS_USER_EXIST";
         private const string USER_SAVE_COMMAND = "P_INS_USER";
         private const string USER_DEL_COMMAND = "P_DEL_USER";
-        private const string USER_DEL_BY_EMAIL_COMMAND = "P_DEL_USER_BY_EMAIL";
+        private const string USER_DEL_BY_USER_NAME_COMMAND = "P_DEL_USER_BY_USER_NAME";
+        private const string USER_UPDATE_STATUS_BY_USER_NAME_COMMAND = "P_USER_UPDATE_STATUS_BY_USER_NAME";
 
         public User GetUserByUserName(string userName)
         {
@@ -97,17 +98,42 @@ namespace SikkimGov.Platform.DataAccess.Repositories
             }
         }
 
-        public void DeleteUserByEmailId(string emailId)
+        public void DeleteUserByUserName(string userName)
         {
             using (var connection = GetConnection())
             {
-                using (var command = new SqlCommand(USER_DEL_BY_EMAIL_COMMAND, connection))
+                using (var command = new SqlCommand(USER_DEL_BY_USER_NAME_COMMAND, connection))
                 {
-                    var parameter = new SqlParameter("@EMAIL", emailId);
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    var parameter = new SqlParameter("@USER_NAME", userName);
                     command.Parameters.Add(parameter);
                     connection.Open();
                     command.ExecuteNonQuery();
                     connection.Close();
+                }
+            }
+        }
+
+        public bool UpdateUserStatusByUserName(string userName, bool status)
+        {
+            using (var connection = GetConnection())
+            {
+                using (var command = new SqlCommand(USER_UPDATE_STATUS_BY_USER_NAME_COMMAND, connection))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    var parameter = new SqlParameter("@USER_NAME", userName);
+                    command.Parameters.Add(parameter);
+
+                    parameter = new SqlParameter("@STATUS", status);
+                    command.Parameters.Add(parameter);
+
+                    connection.Open();
+                    var rowCount = command.ExecuteNonQuery();
+                    connection.Close();
+
+                    return rowCount > 0;
                 }
             }
         }

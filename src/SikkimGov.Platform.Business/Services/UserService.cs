@@ -22,7 +22,7 @@ namespace SikkimGov.Platform.Business.Services
             return this.userRepository.IsUserExists(userName);
         }
 
-        public User SaveUser(User user)
+        public User CreateUser(User user)
         {
             if(string.IsNullOrEmpty(user.Password))
             {
@@ -37,9 +37,14 @@ namespace SikkimGov.Platform.Business.Services
             this.userRepository.DeleteUser(userId);
         }
 
-        public void DeleteUserByEmailId(string emailId)
+        public void DeleteUserByUserName(string userName)
         {
-            this.userRepository.DeleteUserByEmailId(emailId);
+            this.userRepository.DeleteUserByUserName(userName);
+        }
+
+        public bool ApproveUser(string userName)
+        {
+            return this.userRepository.UpdateUserStatusByUserName(userName, true);
         }
     }
 }

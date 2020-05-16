@@ -6,10 +6,12 @@ namespace SikkimGov.Platform.Business.Services.Contracts
     {
         bool IsUserExists(string userName);
 
-        User SaveUser(User user);
+        User CreateUser(User user);
 
         void DeleteUser(long userId);
 
-        void DeleteUserByEmailId(string emailId);
+        void DeleteUserByUserName(string emailId);
+
+        bool ApproveUser(string userName);
     }
 }

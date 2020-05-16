@@ -10,14 +10,12 @@ namespace SikkimGov.Platform.DataAccess.Repositories
     public class DDORegistrationRepository : BaseRepository, IDDORegistrationRepository
     {
         private const string DDO_REG_SAVE_COMMAND = "P_DDO_REGISTRATION_INS";
-
         private const string DDO_REG_GET_BY_STATUS_COMMAND = "P_DDO_REGISTRATION_GET_BY_STATUS";
-
         private const string DDO_REG_DEL_COMMAND = "P_DEL_DDO_REGISTRATION";
-
         private const string DDO_REG_READ_BY_ID_COMMAND = @"P_DDO_REG_READ_BY_ID";
+        private const string DDO_REG_UPDATE_STATUS_COMMAND = "P_DDO_REG_UPDATE_STATUS";
 
-        public DDORegistration SaveDDORegistration(DDORegistration ddoRegistration)
+        public DDORegistration CreateDDORegistration(DDORegistration ddoRegistration)
         {
             using (var connection = GetConnection())
             {
@@ -98,23 +96,24 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                         if(reader.Read())
                         {
                             var ddoRegistration = new DDORegistration();
-                            ddoRegistration.Id = reader.GetInt64(0);
-                            ddoRegistration.DDOCode = reader.GetString(1);
-                            ddoRegistration.DepartmentId = reader.GetInt32(2);
-                            ddoRegistration.DesignationId = reader.GetInt32(3);
-                            ddoRegistration.DistrictId = reader.GetInt32(4);
-                            ddoRegistration.OfficeAddress1 = reader.GetString(5);
-                            ddoRegistration.OfficeAddress2 = reader.IsDBNull(6) ? "" : reader.GetString(6);
-                            ddoRegistration.TINNumber = reader.IsDBNull(7) ? "" : reader.GetString(7);
-                            ddoRegistration.TANNumber = reader.GetString(8);
-                            ddoRegistration.EmailId = reader.GetString(9);
-                            ddoRegistration.ContactNumber = reader.GetString(10);
-                            ddoRegistration.Status = reader.GetBoolean(11);
-                            ddoRegistration.ApprovedBy = reader.IsDBNull(12) ? 0 : reader.GetInt32(12);
+                            ddoRegistration.Id = Convert.ToInt64(reader["REG_ID"]);
+                            ddoRegistration.DDOCode = reader["DDO_CODE"].ToString();
+                            ddoRegistration.DepartmentId = Convert.ToInt32(reader["DEPT_ID"]);
+                            ddoRegistration.DesignationId = Convert.ToInt32(reader["DESIG_ID"]);
+                            ddoRegistration.DistrictId = Convert.ToInt32(reader["DISTRICT_ID"]);
+                            ddoRegistration.OfficeAddress1 = reader["OFFICE_ADD_1"].ToString();
+                            ddoRegistration.OfficeAddress2 = reader["OFFICE_ADD_2"] == DBNull.Value ? "" : reader["OFFICE_ADD_2"].ToString();
+                            ddoRegistration.TINNumber = reader["TIN_NO"] == DBNull.Value ? "" : reader["TIN_NO"].ToString();
+                            ddoRegistration.TANNumber = reader["TAN_NO"].ToString();
+                            ddoRegistration.EmailId = reader["EMAIL"].ToString();
+                            ddoRegistration.ContactNumber = reader["CONTACT_N0"].ToString();
+                            ddoRegistration.Status = Convert.ToBoolean(reader["CUR_STATUS"]);
+                            ddoRegistration.CreateAt = Convert.ToDateTime(reader["ENTRY_TIME"]);
+                            ddoRegistration.ApprovedBy = reader["PASSED_BY"] == DBNull.Value ? 0 : Convert.ToInt32(reader["PASSED_BY"]);
                             ddoRegistration.ApprovedAt = null;
                             if(!reader.IsDBNull(13))
                             {
-                                ddoRegistration.ApprovedAt = reader.GetDateTime(13);
+                                ddoRegistration.ApprovedAt = Convert.ToDateTime(reader["PASSING_TIME"]);
                             }
 
                             return ddoRegistration;
@@ -124,6 +123,28 @@ namespace SikkimGov.Platform.DataAccess.Repositories
             }
 
             return null;
+        }
+
+        public bool UpdateDDORegistrationStatus(long ddoRegistrationId, bool status, int updatedBy)
+        {
+            using (var connection = GetConnection())
+            {
+                using (var command = new SqlCommand(DDO_REG_UPDATE_STATUS_COMMAND, connection))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    var parameter = new SqlParameter("@DDO_REG_ID", ddoRegistrationId);
+                    command.Parameters.Add(parameter);
+                    parameter = new SqlParameter("@STATUS", status);
+                    command.Parameters.Add(parameter);
+                    parameter = new SqlParameter("@UPDATEDBY", updatedBy);
+                    command.Parameters.Add(parameter);
+
+                    connection.Open();
+                    var rowCount = command.ExecuteNonQuery();
+                    connection.Close();
+                    return rowCount > 0;
+                }
+            }
         }
     }
 }

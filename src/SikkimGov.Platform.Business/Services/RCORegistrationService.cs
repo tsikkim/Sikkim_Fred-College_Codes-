@@ -48,7 +48,7 @@ namespace SikkimGov.Platform.Business.Services
             user.UserName = registrationModel.EmailId;
             user.EmailId = registrationModel.EmailId;
 
-            this.userService.SaveUser(user);
+            this.userService.CreateUser(user);
 
             return registrationModel;
         }
@@ -62,7 +62,7 @@ namespace SikkimGov.Platform.Business.Services
                 var emailId = registration.EmailId;
 
                 this.repository.DeleteRCORegistration(rcoRegistrationId);
-                this.userService.DeleteUserByEmailId(emailId);
+                this.userService.DeleteUserByUserName(emailId);
             }
             else
             {
