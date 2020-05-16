@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SikkimGov.Platform.Business.Services;
 using SikkimGov.Platform.Business.Services.Contracts;
+using SikkimGov.Platform.Common.External;
+using SikkimGov.Platform.Common.External.Contracts;
 using SikkimGov.Platform.Common.Security;
 using SikkimGov.Platform.Common.Security.Contracts;
 using SikkimGov.Platform.DataAccess.Repositories;
@@ -33,6 +35,8 @@ namespace SikkimGov.Platform.Api
             services.AddScoped<IRCORegistrationService, RCORegistrationService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<ICryptoService, CryptoService>();
+            services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
 

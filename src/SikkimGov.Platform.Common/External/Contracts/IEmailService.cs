@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Mail;
-using System.Text;
+﻿using SikkimGov.Platform.Common.Models;
 
 namespace SikkimGov.Platform.Common.External.Contracts
 {
     public interface IEmailService
     {
-        void SendEmail(MailMessage mailMessage);
+        void SendLoginDetails(LoginDetailsEmailModel model);
     }
 }

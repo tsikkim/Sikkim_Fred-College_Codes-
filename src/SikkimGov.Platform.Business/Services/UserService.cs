@@ -1,4 +1,6 @@
 ﻿using SikkimGov.Platform.Business.Services.Contracts;
+using SikkimGov.Platform.Common.External.Contracts;
+using SikkimGov.Platform.Common.Models;
 using SikkimGov.Platform.Common.Security.Contracts;
 using SikkimGov.Platform.Common.Utilities;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
@@ -8,13 +10,15 @@ namespace SikkimGov.Platform.Business.Services
 {
     public class UserService : IUserService
     {
-        private IUserRepository userRepository;
-        private ICryptoService cryptoService;
+        private readonly IUserRepository userRepository;
+        private readonly ICryptoService cryptoService;
+        private readonly IEmailService emailService;
 
-        public UserService(IUserRepository userRepository, ICryptoService cryptoService)
+        public UserService(IUserRepository userRepository, ICryptoService cryptoService, IEmailService emailService)
         {
             this.userRepository = userRepository;
             this.cryptoService = cryptoService;
+            this.emailService = emailService;
         }
 
         public bool IsUserExists(string userName)
@@ -44,7 +48,18 @@ namespace SikkimGov.Platform.Business.Services
 
         public bool ApproveUser(string userName)
         {
-            return this.userRepository.UpdateUserStatusByUserName(userName, true);
+            var result =  this.userRepository.UpdateUserStatusByUserName(userName, true);
+
+            LoginDetailsEmailModel emailModel = new LoginDetailsEmailModel();
+            emailModel.ReceiverEmail = userName;
+            emailModel.UserName = userName;
+            emailModel.Password = "somejunk";
+            emailModel.EmailId = userName;
+            emailModel.Subject = "Login details";
+
+            this.emailService.SendLoginDetails(emailModel);
+
+            return result;
         }
     }
 }

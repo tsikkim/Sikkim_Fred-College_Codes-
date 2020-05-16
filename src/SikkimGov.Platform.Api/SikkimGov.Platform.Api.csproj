@@ -21,4 +21,10 @@
     <ProjectReference Include="..\SikkimGov.Platform.Models\SikkimGov.Platform.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Templates\EmailTemplates\LoginDetailsEmail.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

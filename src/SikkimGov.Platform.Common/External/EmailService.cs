@@ -1,47 +1,47 @@
-﻿using System;
-using System.Configuration;
-using System.Net;
-using System.Net.Mail;
+﻿using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using MimeKit;
 using SikkimGov.Platform.Common.External.Contracts;
+using SikkimGov.Platform.Common.Models;
 
 namespace SikkimGov.Platform.Common.External
 {
     public class EmailService : IEmailService
     {
-        private string smtpHost;
-        private int smtpPort;
-        private string smtpUsername;
-        private string smtpPassword;
+        private readonly IHostingEnvironment environment;
+        private readonly IEmailSender emailSender;
 
-        public EmailService()
+        public EmailService(IHostingEnvironment environment, IEmailSender emailSender)
         {
-            this.smtpHost = ConfigurationManager.AppSettings["smtpHost"];
-            this.smtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["smtpPort"]);
-            this.smtpUsername = ConfigurationManager.AppSettings["smtpUsername"];
-            this.smtpPassword = ConfigurationManager.AppSettings["smtpPassword"];
+            this.environment = environment;
+            this.emailSender = emailSender;
         }
 
-        public void SendEmail(MailMessage mailMessage)
+        public void SendLoginDetails(LoginDetailsEmailModel model)
         {
-            using (var smtp = GetSmtpClient())
+            var templateFilePath = Directory.GetCurrentDirectory()
+                            + Path.DirectorySeparatorChar.ToString()
+                            + "Templates"
+                            + Path.DirectorySeparatorChar.ToString()
+                            + "EmailTemplates"
+                            + Path.DirectorySeparatorChar.ToString()
+                            + "LoginDetailsEmail.html";
+
+            var builder = new BodyBuilder();
+
+            using (StreamReader SourceReader = File.OpenText(templateFilePath))
             {
-                smtp.Send(mailMessage);
+                builder.HtmlBody = SourceReader.ReadToEnd();
             }
-        }
 
-        private SmtpClient GetSmtpClient()
-        {
-            var smtp = new SmtpClient
-            {
-                Port = smtpPort,
-                Host = smtpHost,
-                EnableSsl = true,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(smtpUsername, smtpPassword),
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-            };
+            string messageBody = string.Format(builder.HtmlBody, model.UserName, model.EmailId, model.Password);
 
-            return smtp;
+            EmailMessageModel messageModel = new EmailMessageModel();
+            messageModel.EmailBody = messageBody;
+            messageModel.Subject = model.Subject;
+            messageModel.To = model.ReceiverEmail;
+
+            this.emailSender.SendEmail(messageModel);
         }
     }
 }
