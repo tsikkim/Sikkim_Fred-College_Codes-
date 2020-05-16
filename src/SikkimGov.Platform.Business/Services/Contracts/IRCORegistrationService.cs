@@ -5,5 +5,7 @@ namespace SikkimGov.Platform.Business.Services.Contracts
     public interface IRCORegistrationService
     {
         RCORegistrationModel SaveRegistration(RCORegistrationModel registrationModel);
+
+        void RejectRCORegistration(long rcoRegistrationId);
     }
 }

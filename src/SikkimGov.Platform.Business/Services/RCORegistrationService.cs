@@ -1,4 +1,5 @@
 ﻿using SikkimGov.Platform.Business.Services.Contracts;
+using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.ApiModels;
 using SikkimGov.Platform.Models.DomainModels;
@@ -43,6 +44,23 @@ namespace SikkimGov.Platform.Business.Services
             this.userService.SaveUser(user);
 
             return registrationModel;
+        }
+
+        public void RejectRCORegistration(long rcoRegistrationId)
+        {
+            var registration = this.repository.GetRCORegistrationById(rcoRegistrationId);
+
+            if (registration != null)
+            {
+                var emailId = registration.EmailId;
+
+                this.repository.DeleteRCORegistration(rcoRegistrationId);
+                this.userService.DeleteUserByEmailId(emailId);
+            }
+            else
+            {
+                throw new NotFoundException($"RCORegistration with {rcoRegistrationId} does not exist.");
+            }
         }
     }
 }

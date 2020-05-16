@@ -17,7 +17,7 @@ namespace SikkimGov.Platform.Models.DomainModels
         public string ContactNumber { get; set; }
         public bool Status { get; set; }
         public DateTime CreateAt { get; set; }
-        public int ApprovedBy { get; set; }
-        public DateTime ApprovedAt { get; set; }
+        public int? ApprovedBy { get; set; }
+        public DateTime? ApprovedAt { get; set; }
     }
 }

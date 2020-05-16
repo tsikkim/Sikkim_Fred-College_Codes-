@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SikkimGov.Platform.Business.Services.Contracts;
+using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.ApiModels;
 using SikkimGov.Platform.Models.DomainModels;
@@ -54,6 +55,28 @@ namespace SikkimGov.Platform.Business.Services
         public List<DDORegistration> GetApprovedRegistratins()
         {
             return new List<DDORegistration>();
+        }
+
+        public void ApproveDDORegistration(long ddoRegistraionId)
+        {
+            var registration = this.repository.GetDDORegistrationById(ddoRegistraionId);
+        }
+
+        public void RejectDDORegistration(long ddoRegistrationId)
+        {
+            var registration = this.repository.GetDDORegistrationById(ddoRegistrationId);
+
+            if (registration != null)
+            {
+                var emailId = registration.EmailId;
+
+                this.repository.DeleteDDORegistration(ddoRegistrationId);
+                this.userService.DeleteUserByEmailId(emailId);
+            }
+            else
+            {
+                throw new NotFoundException($"DDORegistration with {ddoRegistrationId} does not exist.");
+            }
         }
     }
 }

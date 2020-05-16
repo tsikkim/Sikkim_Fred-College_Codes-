@@ -9,7 +9,7 @@ namespace SikkimGov.Platform.Business.Services
     public class UserService : IUserService
     {
         private IUserRepository userRepository;
-        public ICryptoService cryptoService;
+        private ICryptoService cryptoService;
 
         public UserService(IUserRepository userRepository, ICryptoService cryptoService)
         {
@@ -30,6 +30,16 @@ namespace SikkimGov.Platform.Business.Services
             }
 
             return this.userRepository.SaveUser(user);
+        }
+
+        public void DeleteUser(long userId)
+        {
+            this.userRepository.DeleteUser(userId);
+        }
+
+        public void DeleteUserByEmailId(string emailId)
+        {
+            this.userRepository.DeleteUserByEmailId(emailId);
         }
     }
 }

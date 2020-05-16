@@ -10,6 +10,8 @@ namespace SikkimGov.Platform.DataAccess.Repositories
     {
         private const string IS_USER_EXIST_COMMAND = "P_READ_IS_USER_EXIST";
         private const string USER_SAVE_COMMAND = "P_INS_USER";
+        private const string USER_DEL_COMMAND = "P_DEL_USER";
+        private const string USER_DEL_BY_EMAIL_COMMAND = "P_DEL_USER_BY_EMAIL";
 
         public User GetUserByUserName(string userName)
         {
@@ -78,6 +80,36 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                 }
             }
             return user;
+        }
+
+        public void DeleteUser(long userId)
+        {
+            using (var connection = GetConnection())
+            {
+                using (var command = new SqlCommand(USER_DEL_COMMAND, connection))
+                {
+                    var parameter = new SqlParameter("@USER_ID", userId);
+                    command.Parameters.Add(parameter);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+
+        public void DeleteUserByEmailId(string emailId)
+        {
+            using (var connection = GetConnection())
+            {
+                using (var command = new SqlCommand(USER_DEL_BY_EMAIL_COMMAND, connection))
+                {
+                    var parameter = new SqlParameter("@EMAIL", emailId);
+                    command.Parameters.Add(parameter);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
         }
     }
 }

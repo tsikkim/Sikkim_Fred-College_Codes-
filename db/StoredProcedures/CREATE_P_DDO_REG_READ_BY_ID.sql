@@ -1,0 +1,48 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+  
+CREATE PROCEDURE P_DDO_REG_READ_BY_ID  
+ @DDO_REG_ID BIGINT  
+AS  
+BEGIN TRY
+
+ SET NOCOUNT ON;
+
+ SELECT [REG_ID]  
+      ,[DDO_CODE]  
+      ,[DEPT_ID]  
+      ,[DESIG_ID]  
+      ,[DISTRICT_ID]  
+      ,[OFFICE_ADD_1]  
+      ,[OFFICE_ADD_2]  
+      ,[TIN_NO]  
+      ,[TAN_NO]  
+      ,[EMAIL]  
+      ,[CONTACT_N0]  
+      ,[CUR_STATUS]  
+      ,[ENTRY_TIME]  
+      ,[PASSED_BY]  
+      ,[PASSING_TIME]  
+  FROM [DDO_REGISTRATION]  
+  WHERE REG_ID = @DDO_REG_ID  
+  
+END TRY		
+		
+BEGIN CATCH
+	DECLARE @ERR  VARCHAR(1000)
+	SELECT @ERR=ERROR_MESSAGE()
+	IF	ERROR_SEVERITY () > 12
+		BEGIN
+			RAISERROR (@ERR, 16, 20)
+		END
+		--
+		ELSE
+		--
+		BEGIN
+			RAISERROR (@ERR, 12, 2)
+		END
+END CATCH
+
+GO

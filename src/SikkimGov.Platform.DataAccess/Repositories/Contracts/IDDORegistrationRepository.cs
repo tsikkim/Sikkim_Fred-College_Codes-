@@ -8,5 +8,9 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
         DDORegistration SaveDDORegistration(DDORegistration ddoRegistration);
 
         List<DDORegistration> GetDDORegistrationsByStatus(bool status);
+
+        bool DeleteDDORegistration(long ddoRegistrationId);
+
+        DDORegistration GetDDORegistrationById(long ddoRegistrationId);
     }
 }

@@ -2,6 +2,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using SikkimGov.Platform.Business.Services.Contracts;
+using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.Models.ApiModels;
 using SikkimGov.Platform.Models.DomainModels;
 
@@ -35,7 +36,7 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch (Exception ex)
             {
-                this.Response.StatusCode = (int)HttpStatusCode.Created;
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
         }
@@ -44,6 +45,33 @@ namespace SikkimGov.Platform.Api.Controllers
         public DDORegistration Get(long id)
         {
             return new DDORegistration();
+        }
+
+        [Route("approve")]
+        [HttpPost]
+        public DDORegistration Approve(long regId)
+        {
+            return new DDORegistration();
+        }
+
+        [HttpDelete("{regId}")]
+        public ActionResult Delete(long regId)
+        {
+            try
+            {
+                this.registraionService.RejectDDORegistration(regId);
+                return new EmptyResult();
+            }
+            catch(NotFoundException ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return new JsonResult(new { Error = new { Message = ex.Message } });
+            }
+            catch(Exception ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
         }
     }
 }
