@@ -7,5 +7,7 @@ namespace SikkimGov.Platform.Business.Services.Contracts
         RCORegistrationModel SaveRegistration(RCORegistrationModel registrationModel);
 
         void RejectRCORegistration(long rcoRegistrationId);
+
+        void ApproveRCORegistration(long ddoRegistrationId, int approvedby);
     }
 }

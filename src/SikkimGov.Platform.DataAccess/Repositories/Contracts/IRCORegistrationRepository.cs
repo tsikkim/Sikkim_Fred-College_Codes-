@@ -9,5 +9,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
         bool DeleteRCORegistration(long rcoRegistrationId);
 
         RCORegistration GetRCORegistrationById(long rcoRegistrationId);
+
+        bool UpdateDDORegistrationStatus(long ddoRegistrationId, bool status, int updatedBy);
     }
 }

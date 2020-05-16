@@ -53,6 +53,23 @@ namespace SikkimGov.Platform.Business.Services
             return registrationModel;
         }
 
+        public void ApproveRCORegistration(long rcoRegistrationId, int approvedby)
+        {
+            var registration = this.repository.GetRCORegistrationById(rcoRegistrationId);
+
+            if (registration != null)
+            {
+                var emailId = registration.EmailId;
+
+                this.repository.UpdateDDORegistrationStatus(rcoRegistrationId, true, approvedby);
+                this.userService.ApproveUser(emailId);
+            }
+            else
+            {
+                throw new NotFoundException($"DDORegistration with {rcoRegistrationId} does not exist.");
+            }
+        }
+
         public void RejectRCORegistration(long rcoRegistrationId)
         {
             var registration = this.repository.GetRCORegistrationById(rcoRegistrationId);

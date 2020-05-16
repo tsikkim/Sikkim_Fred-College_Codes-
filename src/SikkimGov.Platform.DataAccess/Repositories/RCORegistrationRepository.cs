@@ -9,10 +9,9 @@ namespace SikkimGov.Platform.DataAccess.Repositories
     public class RCORegistrationRepository : BaseRepository, IRCORegistrationRepository
     {
         private const string RCO_REG_SAVE_COMMAND = "P_RCO_Registration_INS";
-
         private const string RCO_REG_DEL_COMMAND = "P_DEL_RCO_REGISTRATION";
-
         private const string RCO_REG_GET_BY_ID_COMMAND = "P_RCO_REG_READ_BY_ID";
+        private const string RDO_REG_UPDATE_STATUS_COMMAND = "P_RCO_REG_UPDATE_STATUS";
 
         public RCORegistration SaveRCORegistration(RCORegistration rcoRegistration)
         {
@@ -125,6 +124,28 @@ namespace SikkimGov.Platform.DataAccess.Repositories
             }
 
             return null;
+        }
+
+        public bool UpdateDDORegistrationStatus(long rcoRegistrationId, bool status, int updatedBy)
+        {
+            using (var connection = GetConnection())
+            {
+                using (var command = new SqlCommand(RDO_REG_UPDATE_STATUS_COMMAND, connection))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    var parameter = new SqlParameter("@RCO_REG_ID", rcoRegistrationId);
+                    command.Parameters.Add(parameter);
+                    parameter = new SqlParameter("@STATUS", status);
+                    command.Parameters.Add(parameter);
+                    parameter = new SqlParameter("@UPDATEDBY", updatedBy);
+                    command.Parameters.Add(parameter);
+
+                    connection.Open();
+                    var rowCount = command.ExecuteNonQuery();
+                    connection.Close();
+                    return rowCount > 0;
+                }
+            }
         }
     }
 }
