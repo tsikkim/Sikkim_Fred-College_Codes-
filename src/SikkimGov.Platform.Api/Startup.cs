@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SikkimGov.Platform.Business.Common;
-using SikkimGov.Platform.Business.Common.Contracts;
 using SikkimGov.Platform.Business.Services;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Security;
