@@ -19,6 +19,13 @@ namespace SikkimGov.Platform.Business.Services
 
         public RCORegistrationModel SaveRegistration(RCORegistrationModel registrationModel)
         {
+            var userExist = this.userService.IsUserExists(registrationModel.EmailId);
+
+            if(userExist)
+            {
+                throw new UserAlreadyExistsException($"User with email {registrationModel.EmailId} already exist.");
+            }
+
             var registration = new RCORegistration();
 
             registration.AdminName = registrationModel.AdminName;

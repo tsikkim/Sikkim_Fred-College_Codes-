@@ -34,6 +34,11 @@ namespace SikkimGov.Platform.Api.Controllers
                     return new EmptyResult();
                 }
             }
+            catch (UserAlreadyExistsException ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return new JsonResult(new { Error = new { Message = ex.Message } });
+            }
             catch (Exception ex)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

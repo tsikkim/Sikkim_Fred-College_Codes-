@@ -18,28 +18,35 @@ namespace SikkimGov.Platform.Business.Services
             this.userService = userService;
         }
 
-        public DDORegistration SaveRegistration(DDORegistrationModel registration)
+        public DDORegistration SaveRegistration(DDORegistrationModel registrationModel)
         {
+            var userExist = this.userService.IsUserExists(registrationModel.EmailId);
+
+            if (userExist)
+            {
+                throw new UserAlreadyExistsException($"User with email {registrationModel.EmailId} already exist.");
+            }
+
             var ddoRegistration = new DDORegistration();
-            ddoRegistration.DepartmentId = registration.DepartmentId;
-            ddoRegistration.DistrictId = registration.DistrictId;
-            ddoRegistration.DesignationId = registration.DesignationId;
-            ddoRegistration.DDOCode = registration.DDOCode;
-            ddoRegistration.EmailId = registration.EmailId;
-            ddoRegistration.ContactNumber = registration.ContactNumber;
-            ddoRegistration.OfficeAddress1 = registration.OfficeAddress1;
-            ddoRegistration.OfficeAddress2 = registration.OfficeAddress2;
-            ddoRegistration.TINNumber = registration.TINNumber;
-            ddoRegistration.TANNumber = registration.TANNumber;
+            ddoRegistration.DepartmentId = registrationModel.DepartmentId;
+            ddoRegistration.DistrictId = registrationModel.DistrictId;
+            ddoRegistration.DesignationId = registrationModel.DesignationId;
+            ddoRegistration.DDOCode = registrationModel.DDOCode;
+            ddoRegistration.EmailId = registrationModel.EmailId;
+            ddoRegistration.ContactNumber = registrationModel.ContactNumber;
+            ddoRegistration.OfficeAddress1 = registrationModel.OfficeAddress1;
+            ddoRegistration.OfficeAddress2 = registrationModel.OfficeAddress2;
+            ddoRegistration.TINNumber = registrationModel.TINNumber;
+            ddoRegistration.TANNumber = registrationModel.TANNumber;
 
             var newRegistration = this.repository.SaveDDORegistration(ddoRegistration);
 
             var user = new User();
-            user.DDOCode = registration.DDOCode;
+            user.DDOCode = registrationModel.DDOCode;
             user.IsDDOUser = true;
-            user.UserName = registration.EmailId;
-            user.EmailId = registration.EmailId;
-            user.DepartmentId = registration.DepartmentId;
+            user.UserName = registrationModel.EmailId;
+            user.EmailId = registrationModel.EmailId;
+            user.DepartmentId = registrationModel.DepartmentId;
 
             this.userService.SaveUser(user);
 
