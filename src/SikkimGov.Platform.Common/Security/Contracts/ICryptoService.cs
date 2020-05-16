@@ -1,4 +1,4 @@
-﻿namespace SikkimGov.Platform.Business.Common.Contracts
+﻿namespace SikkimGov.Platform.Common.Security.Contracts
 {
     public interface ICryptoService
     {

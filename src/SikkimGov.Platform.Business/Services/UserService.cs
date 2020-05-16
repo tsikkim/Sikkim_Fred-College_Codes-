@@ -1,6 +1,6 @@
-﻿using SikkimGov.Platform.Business.Common.Contracts;
-using SikkimGov.Platform.Business.Common.Utilities;
-using SikkimGov.Platform.Business.Services.Contracts;
+﻿using SikkimGov.Platform.Business.Services.Contracts;
+using SikkimGov.Platform.Common.Security.Contracts;
+using SikkimGov.Platform.Common.Utilities;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.DomainModels;
 

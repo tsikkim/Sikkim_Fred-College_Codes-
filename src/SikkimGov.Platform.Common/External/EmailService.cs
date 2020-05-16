@@ -25,12 +25,6 @@ namespace SikkimGov.Platform.Common.External
         {
             using (var smtp = GetSmtpClient())
             {
-                smtp.Port = 587;
-                smtp.Host = "smtp.gmail.com"; //for gmail host  
-                smtp.EnableSsl = true;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("FromMailAddress", "password");
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(mailMessage);
             }
         }
@@ -39,13 +33,12 @@ namespace SikkimGov.Platform.Common.External
         {
             var smtp = new SmtpClient
             {
-                Port = 587,
-                Host = "smtp.gmail.com",
+                Port = smtpPort,
+                Host = smtpHost,
                 EnableSsl = true,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("FromMailAddress", "password"),
+                Credentials = new NetworkCredential(smtpUsername, smtpPassword),
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-
             };
 
             return smtp;

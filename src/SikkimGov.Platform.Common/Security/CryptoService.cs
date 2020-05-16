@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
-using SikkimGov.Platform.Business.Common.Contracts;
+using SikkimGov.Platform.Common.Security.Contracts;
 
-namespace SikkimGov.Platform.Business.Common
+namespace SikkimGov.Platform.Common.Security
 {
     public class CryptoService : ICryptoService, IDisposable
     {

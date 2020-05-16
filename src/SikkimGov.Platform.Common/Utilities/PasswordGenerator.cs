@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace SikkimGov.Platform.Business.Common.Utilities
+namespace SikkimGov.Platform.Common.Utilities
 {
     public static class PasswordGenerator
     {
