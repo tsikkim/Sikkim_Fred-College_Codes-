@@ -28,9 +28,9 @@ namespace SikkimGov.Platform.Api.Controllers
             return this.userService.IsUserExists(userName);
         }
 
-        [Route("forgotpassword")]
+        [Route("recoverpassword")]
         [HttpPost]
-        public ActionResult SendLoginDetails(ForgetPasswordModel model)
+        public ActionResult RecoverPassword(ForgetPasswordModel model)
         {
             try
             {
