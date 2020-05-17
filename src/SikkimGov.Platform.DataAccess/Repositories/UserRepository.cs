@@ -48,28 +48,33 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                     connection.Open();
                     using (var reader = command.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
                     {
-                        var user = new User();
-                        user.Id = Convert.ToInt64(reader["USER_ID"]);
-                        user.UserName = reader["USER_NAME"].ToString();
-                        user.Password = reader["PASSWORD"].ToString();
-                        user.IsLoggedIn = Convert.ToBoolean(reader["IS_LOGGED_IN"]);
-                        user.LastLoginDate = Convert.ToDateTime(reader["LAST_LOGIN_DATE"]);
-                        user.IsActive = Convert.ToBoolean(reader["ACTIVE"]);
-                        user.CreatedDate = Convert.ToDateTime(reader["CREATE_DATE"]);
-                        user.LastSchoolNumber = Convert.ToInt64(reader["LAST_SCH_NO"]);
-                        user.Step = Convert.ToByte(reader["STEP"]);
-                        user.UserType = Convert.ToByte(reader["TYPE"]);
-                        user.IsAdmin = reader["IS_ADMIN"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_ADMIN"]);
-                        user.DepartmentId = reader["DEPT_ID"] == DBNull.Value ? 0 : Convert.ToInt64(reader["DEPT_ID"]);
-                        user.IsDDOUser = reader["IS_DDO"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_DDO"]);
-                        user.IsSuperAdmin = reader["IS_SUPER"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_SUPER"]);
-                        user.EmailId = reader["Email"] == DBNull.Value ? "" : reader["Email"].ToString();
-                        user.IsRCOUser = reader["IS_RCO"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_RCO"]);
-                        user.DDOCode = reader["ddocode"] == DBNull.Value ? "" : reader["ddocode"].ToString();
-                        return user;
+                        if (reader.Read())
+                        {
+                            var user = new User();
+                            user.Id = Convert.ToInt64(reader["USER_ID"]);
+                            user.UserName = reader["USER_NAME"].ToString();
+                            user.Password = reader["PASSWORD"].ToString();
+                            user.IsLoggedIn = Convert.ToBoolean(reader["IS_LOGGED_IN"]);
+                            user.LastLoginDate = Convert.ToDateTime(reader["LAST_LOGIN_DATE"]);
+                            user.IsActive = Convert.ToBoolean(reader["ACTIVE"]);
+                            user.CreatedDate = Convert.ToDateTime(reader["CREATE_DATE"]);
+                            user.LastSchoolNumber = Convert.ToInt64(reader["LAST_SCH_NO"]);
+                            user.Step = Convert.ToByte(reader["STEP"]);
+                            user.UserType = Convert.ToByte(reader["TYPE"]);
+                            user.IsAdmin = reader["IS_ADMIN"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_ADMIN"]);
+                            user.DepartmentId = reader["DEPT_ID"] == DBNull.Value ? 0 : Convert.ToInt64(reader["DEPT_ID"]);
+                            user.IsDDOUser = reader["IS_DDO"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_DDO"]);
+                            user.IsSuperAdmin = reader["IS_SUPER"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_SUPER"]);
+                            user.EmailId = reader["Email"] == DBNull.Value ? "" : reader["Email"].ToString();
+                            user.IsRCOUser = reader["IS_RCO"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_RCO"]);
+                            user.DDOCode = reader["ddocode"] == DBNull.Value ? "" : reader["ddocode"].ToString();
+                            return user;
+                        }
                     }
                 }
             }
+
+            return null;
         }
 
         public User SaveUser(User user)

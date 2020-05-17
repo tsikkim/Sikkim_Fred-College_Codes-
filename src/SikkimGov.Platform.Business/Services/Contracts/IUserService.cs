@@ -1,4 +1,5 @@
-﻿using SikkimGov.Platform.Models.DomainModels;
+﻿using SikkimGov.Platform.Models.ApiModels;
+using SikkimGov.Platform.Models.DomainModels;
 
 namespace SikkimGov.Platform.Business.Services.Contracts
 {
@@ -13,5 +14,7 @@ namespace SikkimGov.Platform.Business.Services.Contracts
         void DeleteUserByUserName(string emailId);
 
         bool ApproveUser(string userName);
+
+        void SendLoginDetails(string userName);
     }
 }

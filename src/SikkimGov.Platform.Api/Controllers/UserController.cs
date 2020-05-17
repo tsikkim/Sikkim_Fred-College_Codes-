@@ -3,6 +3,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SikkimGov.Platform.Business.Services.Contracts;
+using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.Models.ApiModels;
 
 namespace SikkimGov.Platform.Api.Controllers
@@ -25,6 +26,32 @@ namespace SikkimGov.Platform.Api.Controllers
         public bool IsUserExists(string userName)
         {
             return this.userService.IsUserExists(userName);
+        }
+
+        [Route("forgotpassword")]
+        [HttpPost]
+        public ActionResult SendLoginDetails(ForgetPasswordModel model)
+        {
+            try
+            {
+                if(string.IsNullOrEmpty(model.UserName))
+                {
+                    return BadRequest(new { Error = new { Message = "Username can not be empty." } });
+                }
+
+                this.userService.SendLoginDetails(model.UserName);
+                return new EmptyResult();
+            }
+            catch(NotFoundException ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return new JsonResult(new { Error = new { Message = ex.Message } });
+            }
+            catch(Exception ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
         }
 
         [AllowAnonymous]

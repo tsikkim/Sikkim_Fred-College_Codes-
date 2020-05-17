@@ -1,9 +1,11 @@
 ﻿using SikkimGov.Platform.Business.Services.Contracts;
+using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.Common.External.Contracts;
 using SikkimGov.Platform.Common.Models;
 using SikkimGov.Platform.Common.Security.Contracts;
 using SikkimGov.Platform.Common.Utilities;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
+using SikkimGov.Platform.Models.ApiModels;
 using SikkimGov.Platform.Models.DomainModels;
 
 namespace SikkimGov.Platform.Business.Services
@@ -65,6 +67,27 @@ namespace SikkimGov.Platform.Business.Services
             }
 
             return result;
+        }
+
+        public void SendLoginDetails(string userName)
+        {
+            var user = this.userRepository.GetUserByUsername(userName);
+
+            if(user == null)
+            {
+                throw new NotFoundException($"User with username {userName} does not exist.");
+            }
+
+            var password = this.cryptoService.Decrypt(user.Password);
+
+            var emailModel = new LoginDetailsEmailModel();
+
+            emailModel.ReceiverEmail = userName;
+            emailModel.UserName = userName;
+            emailModel.Password = password;
+            emailModel.EmailId = userName;
+            emailModel.Subject = "Login details";
+            this.emailService.SendLoginDetails(emailModel);
         }
     }
 }
