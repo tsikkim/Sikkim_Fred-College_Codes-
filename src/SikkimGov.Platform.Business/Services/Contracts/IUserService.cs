@@ -19,5 +19,7 @@ namespace SikkimGov.Platform.Business.Services.Contracts
         void SendLoginDetails(string userName);
 
         List<UserDetails> GetDDOUserDetails();
+
+        List<UserDetails> GetRCOUserDetails();
     }
 }

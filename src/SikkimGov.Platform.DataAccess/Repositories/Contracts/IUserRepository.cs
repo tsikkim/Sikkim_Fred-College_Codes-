@@ -18,5 +18,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
         User GetUserByUsername(string userName);
 
         List<UserDetails> GetDDOUserDetails();
+
+        List<UserDetails> GetRCOUserDetails();
     }
 }
