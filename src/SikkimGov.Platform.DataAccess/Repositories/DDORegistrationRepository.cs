@@ -90,6 +90,13 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             ddoRegistration.Status = Convert.ToBoolean(reader["CUR_STATUS"]);
                             ddoRegistration.StatusName = reader["STATUS_NAME"].ToString();
                             ddoRegistration.CreateAt = Convert.ToDateTime(reader["ENTRY_TIME"]);
+                            ddoRegistration.ApprovedBy = reader["PASSED_BY"] == DBNull.Value ? 0 : Convert.ToInt32(reader["PASSED_BY"]);
+                            ddoRegistration.ApprovedDate = null;
+
+                            if(reader["PASSING_TIME"] != DBNull.Value)
+                            {
+                                ddoRegistration.ApprovedDate = Convert.ToDateTime(reader["PASSING_TIME"]);
+                            }
 
                             ddoRegistrations.Add(ddoRegistration);
                         }
@@ -149,10 +156,10 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             ddoRegistration.Status = Convert.ToBoolean(reader["CUR_STATUS"]);
                             ddoRegistration.CreateAt = Convert.ToDateTime(reader["ENTRY_TIME"]);
                             ddoRegistration.ApprovedBy = reader["PASSED_BY"] == DBNull.Value ? 0 : Convert.ToInt32(reader["PASSED_BY"]);
-                            ddoRegistration.ApprovedAt = null;
+                            ddoRegistration.ApprovedDate = null;
                             if (!reader.IsDBNull(13))
                             {
-                                ddoRegistration.ApprovedAt = Convert.ToDateTime(reader["PASSING_TIME"]);
+                                ddoRegistration.ApprovedDate = Convert.ToDateTime(reader["PASSING_TIME"]);
                             }
 
                             return ddoRegistration;
