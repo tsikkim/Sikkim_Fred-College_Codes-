@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using SikkimGov.Platform.Models.ApiModels;
 using SikkimGov.Platform.Models.DomainModels;
 
 namespace SikkimGov.Platform.Business.Services.Contracts
@@ -21,5 +20,7 @@ namespace SikkimGov.Platform.Business.Services.Contracts
         List<UserDetails> GetDDOUserDetails();
 
         List<UserDetails> GetRCOUserDetails();
+
+        List<UserDetails> GetAdminUserDetails();
     }
 }

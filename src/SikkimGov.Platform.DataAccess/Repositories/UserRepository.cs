@@ -17,6 +17,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
         private const string USER_READ_BY_USER_NAME_COMMAND = "P_READ_USER_BY_USER_NAME";
         private const string DDO_USER_DETAILS_READ_COMMAND = "P_READ_DDO_USER_DETAILS";
         private const string RCO_USER_DETAILS_READ_COMMAND = "P_READ_RCO_USER_DETAILS";
+        private const string ADMIN_USER_DETAILS_READ_COMMAND = "P_READ_ADMIN_USER_DETAILS";
 
         public bool IsUserExists(string userName)
         {
@@ -237,6 +238,36 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             userDetails.IsRCOUser = reader["IS_RCO"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_RCO"]);
                             userDetails.DDOCode = reader["ddocode"] == DBNull.Value ? "" : reader["ddocode"].ToString();
 
+                            userDetailsList.Add(userDetails);
+                        }
+                    }
+                }
+            }
+
+            return userDetailsList;
+        }
+
+        public List<UserDetails> GetAdminUserDetails()
+        {
+            var userDetailsList = new List<UserDetails>();
+            using (var connection = GetConnection())
+            {
+                using (var command = new SqlCommand(ADMIN_USER_DETAILS_READ_COMMAND, connection))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    connection.Open();
+
+                    using (var reader = command.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                    {
+                        while (reader.Read())
+                        {
+                            var userDetails = new UserDetails();
+                            userDetails.Id = Convert.ToInt64(reader["USER_ID"]);
+                            userDetails.UserName = reader["USER_NAME"].ToString();
+                            userDetails.IsAdmin = reader["IS_ADMIN"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_ADMIN"]);
+                            userDetails.IsDDOUser = reader["IS_DDO"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_DDO"]);
+                            userDetails.IsSuperAdmin = reader["IS_SUPER"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_SUPER"]);
+                            userDetails.IsRCOUser = reader["IS_RCO"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_RCO"]);
                             userDetailsList.Add(userDetails);
                         }
                     }

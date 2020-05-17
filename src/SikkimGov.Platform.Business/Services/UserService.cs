@@ -99,5 +99,10 @@ namespace SikkimGov.Platform.Business.Services
         {
             return this.userRepository.GetRCOUserDetails();
         }
+
+        public List<UserDetails> GetAdminUserDetails()
+        {
+            return this.userRepository.GetAdminUserDetails();
+        }
     }
 }

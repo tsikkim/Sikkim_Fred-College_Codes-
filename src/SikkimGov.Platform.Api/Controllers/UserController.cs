@@ -81,7 +81,7 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch(Exception ex)
             {
-                this.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
         }
@@ -97,7 +97,7 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch(Exception ex)
             {
-                this.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
         }
@@ -113,7 +113,23 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch (Exception ex)
             {
-                this.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
+        }
+
+        [Route("admin")]
+        [HttpGet]
+        public ActionResult GetAdminUsers()
+        {
+            try
+            {
+                var users = this.userService.GetAdminUserDetails();
+                return new JsonResult(users);
+            }
+            catch (Exception ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
         }
