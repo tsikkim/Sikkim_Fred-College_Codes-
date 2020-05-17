@@ -85,5 +85,21 @@ namespace SikkimGov.Platform.Api.Controllers
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
         }
+
+        [Route("ddo")]
+        [HttpGet]
+        public ActionResult GetDDOUsers()
+        {
+            try
+            {
+                var users = this.userService.GetDDOUserDetails();
+                return new JsonResult(users);
+            }
+            catch(Exception ex)
+            {
+                this.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SikkimGov.Platform.Business.Services.Contracts;
+﻿using System.Collections.Generic;
+using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.Common.External.Contracts;
 using SikkimGov.Platform.Common.Models;
@@ -87,6 +88,11 @@ namespace SikkimGov.Platform.Business.Services
             emailModel.EmailId = userName;
             emailModel.Subject = "Login details";
             this.emailService.SendLoginDetails(emailModel);
+        }
+
+        public List<UserDetails> GetDDOUserDetails()
+        {
+            return this.userRepository.GetDDOUserDetails();
         }
     }
 }

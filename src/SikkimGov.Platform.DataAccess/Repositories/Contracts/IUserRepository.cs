@@ -1,4 +1,5 @@
-﻿using SikkimGov.Platform.Models.DomainModels;
+﻿using System.Collections.Generic;
+using SikkimGov.Platform.Models.DomainModels;
 
 namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 {
@@ -15,5 +16,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
         bool UpdateUserStatusByUserName(string userName, bool status);
 
         User GetUserByUsername(string userName);
+
+        List<UserDetails> GetDDOUserDetails();
     }
 }
