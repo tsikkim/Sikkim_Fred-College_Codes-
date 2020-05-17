@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 using SikkimGov.Platform.Common.Security.Contracts;
@@ -23,7 +24,7 @@ namespace SikkimGov.Platform.Common.Security
         /// </summary>
         private void Construct()
         {
-            var strKey = "<well I'm hardly going to tell you my key...!>"; ;
+            var strKey = ConfigurationManager.AppSettings["passwordEncryptionKey"];
             byte[] abytKeyHash;
 
             /// <remarks>

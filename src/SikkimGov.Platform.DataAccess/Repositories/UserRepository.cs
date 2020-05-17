@@ -13,11 +13,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
         private const string USER_DEL_COMMAND = "P_DEL_USER";
         private const string USER_DEL_BY_USER_NAME_COMMAND = "P_DEL_USER_BY_USER_NAME";
         private const string USER_UPDATE_STATUS_BY_USER_NAME_COMMAND = "P_USER_UPDATE_STATUS_BY_USER_NAME";
-
-        public User GetUserByUserName(string userName)
-        {
-            return new User();
-        }
+        private const string USER_READ_BY_USER_NAME_COMMAND = "P_READ_USER_BY_USER_NAME";
 
         public bool IsUserExists(string userName)
         {
@@ -37,6 +33,45 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                     return result != null;
                 }
             }
+        }
+
+        public User GetUserByUsername(string userName)
+        {
+            using (var connection = GetConnection())
+            {
+                using (var command = new SqlCommand(USER_READ_BY_USER_NAME_COMMAND, connection))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    var parameter = new SqlParameter("@USER_NAME", userName);
+                    command.Parameters.Add(parameter);
+
+                    connection.Open();
+                    using (var reader = command.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                    {
+                        var user = new User();
+                        user.Id = Convert.ToInt64(reader["USER_ID"]);
+                        user.UserName = reader["USER_NAME"].ToString();
+                        user.Password = reader["PASSWORD"].ToString();
+                        user.IsLoggedIn = Convert.ToBoolean(reader["IS_LOGGED_IN"]);
+                        user.LastLoginDate = Convert.ToDateTime(reader["LAST_LOGIN_DATE"]);
+                        user.IsActive = Convert.ToBoolean(reader["ACTIVE"]);
+                        user.CreatedDate = Convert.ToDateTime(reader["CREATE_DATE"]);
+                        user.LastSchoolNumber = Convert.ToInt64(reader["LAST_SCH_NO"]);
+                        user.Step = Convert.ToByte(reader["STEP"]);
+                        user.UserType = Convert.ToByte(reader["TYPE"]);
+                        user.IsAdmin = reader["IS_ADMIN"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_ADMIN"]);
+                        user.DepartmentId = reader["DEPT_ID"] == DBNull.Value ? 0 : Convert.ToInt64(reader["DEPT_ID"]);
+                        user.IsDDOUser = reader["IS_DDO"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_DDO"]);
+                        user.IsSuperAdmin = reader["IS_SUPER"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_SUPER"]);
+                        user.EmailId = reader["Email"] == DBNull.Value ? "" : reader["Email"].ToString();
+                        user.IsRCOUser = reader["IS_RCO"] == DBNull.Value ? false : Convert.ToBoolean(reader["IS_RCO"]);
+                        user.DDOCode = reader["ddocode"] == DBNull.Value ? "" : reader["ddocode"].ToString();
+                        return user;
+                    }
+                }
+            }
+
+            return null;
         }
 
         public User SaveUser(User user)

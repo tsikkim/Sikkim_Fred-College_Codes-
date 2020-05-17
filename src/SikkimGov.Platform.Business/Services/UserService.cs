@@ -50,14 +50,19 @@ namespace SikkimGov.Platform.Business.Services
         {
             var result =  this.userRepository.UpdateUserStatusByUserName(userName, true);
 
-            LoginDetailsEmailModel emailModel = new LoginDetailsEmailModel();
-            emailModel.ReceiverEmail = userName;
-            emailModel.UserName = userName;
-            emailModel.Password = "somejunk";
-            emailModel.EmailId = userName;
-            emailModel.Subject = "Login details";
+            var user = this.userRepository.GetUserByUsername(userName);
 
-            this.emailService.SendLoginDetails(emailModel);
+            if (user != null)
+            {
+                var decryptedPassword = this.cryptoService.Decrypt(user.Password);
+                LoginDetailsEmailModel emailModel = new LoginDetailsEmailModel();
+                emailModel.ReceiverEmail = userName;
+                emailModel.UserName = userName;
+                emailModel.Password = decryptedPassword;
+                emailModel.EmailId = userName;
+                emailModel.Subject = "Login details";
+                this.emailService.SendLoginDetails(emailModel);
+            }
 
             return result;
         }
