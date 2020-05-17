@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using SikkimGov.Platform.Business.Services.Contracts;
@@ -45,10 +46,39 @@ namespace SikkimGov.Platform.Api.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public DDORegistration Get(long id)
+        [HttpGet]
+        public ActionResult Get()
         {
-            return new DDORegistration();
+            return Get("all");
+        }
+
+        [HttpGet("{status}")]
+        public ActionResult Get(string status)
+        {
+            try
+            {
+                var registrations = new List<DDORegistrationDetails>();
+                switch (status.ToLower())
+                {
+                    case "all":
+                        registrations = this.registraionService.GetAllRegistrations();
+                        return new JsonResult(registrations);
+                    case "approved":
+                        registrations = this.registraionService.GetApprovedRegistrations();
+                        return new JsonResult(registrations);
+                    case "pending":
+                        registrations = this.registraionService.GetPendingRegistrations();
+                        return new JsonResult(registrations);
+                    default:
+                        this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        return new JsonResult(new { Error = new { Message = "Invalid status filter provided." } });
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
         }
 
         [Route("approve")]

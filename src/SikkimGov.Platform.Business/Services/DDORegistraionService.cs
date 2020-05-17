@@ -53,14 +53,19 @@ namespace SikkimGov.Platform.Business.Services
             return newRegistration;
         }
 
-        public List<DDORegistration> GetPendingRegistrations()
+        public List<DDORegistrationDetails> GetAllRegistrations()
         {
-            return new List<DDORegistration>();
+            return this.repository.GetDDORegistrationsByStatus(null);
         }
 
-        public List<DDORegistration> GetApprovedRegistrations()
+        public List<DDORegistrationDetails> GetPendingRegistrations()
         {
-            return new List<DDORegistration>();
+            return this.repository.GetDDORegistrationsByStatus(false);
+        }
+
+        public List<DDORegistrationDetails> GetApprovedRegistrations()
+        {
+            return this.repository.GetDDORegistrationsByStatus(true);
         }
 
         public void ApproveDDORegistration(long ddoRegistrationId, int approvedby)
