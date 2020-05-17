@@ -5,7 +5,6 @@ using SikkimGov.Platform.Common.Models;
 using SikkimGov.Platform.Common.Security.Contracts;
 using SikkimGov.Platform.Common.Utilities;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
-using SikkimGov.Platform.Models.ApiModels;
 using SikkimGov.Platform.Models.DomainModels;
 
 namespace SikkimGov.Platform.Business.Services
