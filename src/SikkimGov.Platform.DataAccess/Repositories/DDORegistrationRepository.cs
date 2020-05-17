@@ -87,8 +87,8 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             ddoRegistration.TINNumber = reader["TIN_NO"] == DBNull.Value ? "" : reader["TIN_NO"].ToString();
                             ddoRegistration.TANNumber = reader["TAN_NO"] == DBNull.Value ? "" : reader["TAN_NO"].ToString();
                             ddoRegistration.EmailId = reader["EMAIL"] == DBNull.Value ? "" : reader["EMAIL"].ToString();
-                            ddoRegistration.Status = reader["STATUS"].ToString() == "APPROVED";
-                            ddoRegistration.StatusName = reader["STATUS"].ToString();
+                            ddoRegistration.Status = Convert.ToBoolean(reader["CUR_STATUS"]);
+                            ddoRegistration.StatusName = reader["STATUS_NAME"].ToString();
                             ddoRegistration.CreateAt = Convert.ToDateTime(reader["ENTRY_TIME"]);
 
                             ddoRegistrations.Add(ddoRegistration);
