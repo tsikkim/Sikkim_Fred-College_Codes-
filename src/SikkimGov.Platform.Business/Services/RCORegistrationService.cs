@@ -67,7 +67,7 @@ namespace SikkimGov.Platform.Business.Services
             }
             else
             {
-                throw new NotFoundException($"DDORegistration with {rcoRegistrationId} does not exist.");
+                throw new NotFoundException($"RDORegistration with ID {rcoRegistrationId} does not exist.");
             }
         }
 
@@ -84,7 +84,7 @@ namespace SikkimGov.Platform.Business.Services
             }
             else
             {
-                throw new NotFoundException($"RCORegistration with {rcoRegistrationId} does not exist.");
+                throw new NotFoundException($"RCORegistration with ID {rcoRegistrationId} does not exist.");
             }
         }
 

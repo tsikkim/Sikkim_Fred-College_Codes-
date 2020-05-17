@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
-using SikkimGov.Platform.Models.DomainModels;
 
 namespace SikkimGov.Platform.Api.Controllers
 {
@@ -16,22 +15,42 @@ namespace SikkimGov.Platform.Api.Controllers
         }
         // GET: api/Department
         [HttpGet]
-        public List<Department> Get()
+        public ActionResult Get()
         {
-            var department = this.departmentRepository.GetAllDepartments();
-            return this.departmentRepository.GetAllDepartments();
+            try
+            {
+                var departments = this.departmentRepository.GetAllDepartments();
+
+                return new JsonResult(departments);
+            }
+            catch (Exception ex)
+            {
+                this.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
         }
 
         // GET: api/Department/5
         [HttpGet("{id}", Name = "Get")]
-        public ActionResult<Department> Get(int id)
+        public ActionResult Get(int id)
         {
-            var department = this.departmentRepository.GetDepartmentById(id);
+            try
+            {
+                var department = this.departmentRepository.GetDepartmentById(id);
 
-            if (department != null)
-                return department;
-            else
-                return NotFound();
+                if (department != null)
+                    return new JsonResult(department);
+                else
+                {
+                    this.Response.StatusCode = (int)System.Net.HttpStatusCode.NotFound;
+                    return new JsonResult(new { Error = new { Message = $"Department with ID {id} does not exist." } });
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
         }
     }
 }
