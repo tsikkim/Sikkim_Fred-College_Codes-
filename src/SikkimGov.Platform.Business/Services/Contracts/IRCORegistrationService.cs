@@ -1,4 +1,6 @@
-﻿using SikkimGov.Platform.Models.ApiModels;
+﻿using System.Collections.Generic;
+using SikkimGov.Platform.Models.ApiModels;
+using SikkimGov.Platform.Models.DomainModels;
 
 namespace SikkimGov.Platform.Business.Services.Contracts
 {
@@ -9,5 +11,11 @@ namespace SikkimGov.Platform.Business.Services.Contracts
         void RejectRCORegistration(long rcoRegistrationId);
 
         void ApproveRCORegistration(long ddoRegistrationId, int approvedby);
+
+        List<RCORegistrationDetails> GetAllRegistrations();
+
+        List<RCORegistrationDetails> GetPendingRegistrations();
+
+        List<RCORegistrationDetails> GetApprovedRegistrations();        
     }
 }

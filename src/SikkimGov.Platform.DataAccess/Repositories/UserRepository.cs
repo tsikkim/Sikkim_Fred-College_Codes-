@@ -70,8 +70,6 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                     }
                 }
             }
-
-            return null;
         }
 
         public User SaveUser(User user)

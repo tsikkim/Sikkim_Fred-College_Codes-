@@ -1,4 +1,5 @@
-﻿using SikkimGov.Platform.Models.DomainModels;
+﻿using System.Collections.Generic;
+using SikkimGov.Platform.Models.DomainModels;
 
 namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 {
@@ -11,5 +12,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
         RCORegistration GetRCORegistrationById(long rcoRegistrationId);
 
         bool UpdateDDORegistrationStatus(long ddoRegistrationId, bool status, int updatedBy);
+
+        List<RCORegistrationDetails> GetRCORegistrationsByStatus(bool? status);
     }
 }

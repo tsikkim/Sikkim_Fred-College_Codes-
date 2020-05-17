@@ -19,6 +19,6 @@ namespace SikkimGov.Platform.Models.DomainModels
         public DateTime CreatedDate { get; set; }
         public bool Status { get; set; }
         public int? ApprovedBy { get; set; }
-        public DateTime? ApprovedAt { get; set; }
+        public DateTime? ApprovedDate { get; set; }
     }
 }

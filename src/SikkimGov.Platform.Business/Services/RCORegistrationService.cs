@@ -1,4 +1,5 @@
-﻿using SikkimGov.Platform.Business.Services.Contracts;
+﻿using System.Collections.Generic;
+using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.ApiModels;
@@ -85,6 +86,21 @@ namespace SikkimGov.Platform.Business.Services
             {
                 throw new NotFoundException($"RCORegistration with {rcoRegistrationId} does not exist.");
             }
+        }
+
+        public List<RCORegistrationDetails> GetAllRegistrations()
+        {
+            return this.repository.GetRCORegistrationsByStatus(null);
+        }
+
+        public List<RCORegistrationDetails> GetPendingRegistrations()
+        {
+            return this.repository.GetRCORegistrationsByStatus(false);
+        }
+
+        public List<RCORegistrationDetails> GetApprovedRegistrations()
+        {
+            return this.repository.GetRCORegistrationsByStatus(true);
         }
     }
 }
