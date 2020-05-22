@@ -34,7 +34,7 @@ namespace SikkimGov.Platform.Api.Controllers
         {
             try
             {
-                if(string.IsNullOrEmpty(model.UserName))
+                if (string.IsNullOrEmpty(model.UserName))
                 {
                     return BadRequest(new { Error = new { Message = "Username can not be empty." } });
                 }
@@ -42,12 +42,12 @@ namespace SikkimGov.Platform.Api.Controllers
                 this.userService.SendLoginDetails(model.UserName);
                 return new EmptyResult();
             }
-            catch(NotFoundException ex)
+            catch (NotFoundException ex)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return new JsonResult(new { Error = new { Message = ex.Message } });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
@@ -57,7 +57,7 @@ namespace SikkimGov.Platform.Api.Controllers
         [AllowAnonymous]
         [Route("login")]
         [HttpPost]
-        public ActionResult Login([FromBody]LoginModel login)
+        public ActionResult Login([FromBody] LoginModel login)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace SikkimGov.Platform.Api.Controllers
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
@@ -95,7 +95,7 @@ namespace SikkimGov.Platform.Api.Controllers
                 var users = this.userService.GetDDOUserDetails();
                 return new JsonResult(users);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });

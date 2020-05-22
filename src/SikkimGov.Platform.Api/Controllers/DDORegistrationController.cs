@@ -10,7 +10,7 @@ using SikkimGov.Platform.Models.DomainModels;
 namespace SikkimGov.Platform.Api.Controllers
 {
     [Route("api/[controller]")]
-    //[ApiController]
+    [ApiController]
     public class DDORegistrationController : ControllerBase
     {
         private readonly IDDORegistraionService registraionService;
@@ -117,12 +117,12 @@ namespace SikkimGov.Platform.Api.Controllers
                 this.registraionService.RejectDDORegistration(regId);
                 return new EmptyResult();
             }
-            catch(NotFoundException ex)
+            catch (NotFoundException ex)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return new JsonResult(new { Error = new { Message = ex.Message } });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });

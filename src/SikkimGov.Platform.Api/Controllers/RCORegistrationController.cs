@@ -35,12 +35,12 @@ namespace SikkimGov.Platform.Api.Controllers
                     return new EmptyResult();
                 }
             }
-            catch(UserAlreadyExistsException ex)
+            catch (UserAlreadyExistsException ex)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return new JsonResult(new { Error = new { Message = ex.Message } });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });

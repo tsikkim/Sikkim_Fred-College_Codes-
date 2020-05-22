@@ -1,13 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.1" />
-  </ItemGroup>
 
+  <ItemGroup>
+	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.1" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SikkimGov.Platform.Common\SikkimGov.Platform.Common.csproj" />
     <ProjectReference Include="..\SikkimGov.Platform.DataAccess\SikkimGov.Platform.DataAccess.csproj" />
