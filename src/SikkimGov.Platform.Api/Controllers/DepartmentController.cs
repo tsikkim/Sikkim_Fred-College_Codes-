@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 
 namespace SikkimGov.Platform.Api.Controllers
@@ -9,22 +10,27 @@ namespace SikkimGov.Platform.Api.Controllers
     public class DepartmentController : ControllerBase
     {
         private readonly IDepartmentRepository departmentRepository;
-        public DepartmentController(IDepartmentRepository departmentRepository)
+        private readonly ILogger<DepartmentController> logger;
+        public DepartmentController(IDepartmentRepository departmentRepository, ILogger<DepartmentController> logger)
         {
             this.departmentRepository = departmentRepository;
+            this.logger = logger;
         }
+
         // GET: api/Department
         [HttpGet]
         public ActionResult Get()
         {
             try
             {
+                logger.LogInformation("Starting get method.");
                 var departments = this.departmentRepository.GetAllDepartments();
 
                 return new JsonResult(departments);
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Error while getting all departments.");
                 this.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }

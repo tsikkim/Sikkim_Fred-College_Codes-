@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NLog.Config" Version="4.7.2" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SikkimGov.Platform.Business\SikkimGov.Platform.Business.csproj" />
     <ProjectReference Include="..\SikkimGov.Platform.Common\SikkimGov.Platform.Common.csproj" />
     <ProjectReference Include="..\SikkimGov.Platform.DataAccess\SikkimGov.Platform.DataAccess.csproj" />
