@@ -1,14 +1,15 @@
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROCEDURE [dbo].[P_RCO_Registration_INS]
-	-- Add the parameters for the stored procedure here
-	
-	    @RCO_Name_Of_Administrator NVARCHAR(30),
+DROP PROCEDURE IF EXISTS P_RCO_Registration_INS
+GO
+
+CREATE PROCEDURE [P_RCO_Registration_INS]
+		@RCO_Name_Of_Administrator NVARCHAR(30),
 		@Type_Of_Reg  NVARCHAR(20),
+		@RCO_Dept_Id INT,
 		@RCO_Department NVARCHAR(100),
 		@RCO_Designation NVARCHAR(20),
 		@RCO_District NVARCHAR(10),
@@ -40,7 +41,8 @@ BEGIN TRY
 		RCO_Tan_No ,
 		RCO_Email ,
 		RCO_Contact,
-		RCO_Entry_Time
+		RCO_Entry_Time,
+		RCO_Dept_Id
 	)
 	
 	VALUES
@@ -57,7 +59,8 @@ BEGIN TRY
 		/* EMAIL	*/			LOWER(@RCO_Email),
 		/* CONTACT_N0	*/		@RCO_Contact,
 		
-		/* ENTRY_TIME	*/		GETDATE()
+		/* ENTRY_TIME	*/		GETDATE(),
+								@RCO_Dept_Id
 	
 	)
 	
@@ -83,4 +86,5 @@ BEGIN CATCH
 			RAISERROR (@ERR, 12, 2)
 		END
 END CATCH
+
 GO

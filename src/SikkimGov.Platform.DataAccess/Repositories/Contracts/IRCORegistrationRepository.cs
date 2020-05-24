@@ -5,7 +5,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 {
     public interface IRCORegistrationRepository
     {
-        RCORegistration SaveRCORegistration(RCORegistration rcoRegistration);
+        RCORegistration CreateRCORegistration(RCORegistration rcoRegistration);
 
         bool DeleteRCORegistration(long rcoRegistrationId);
 

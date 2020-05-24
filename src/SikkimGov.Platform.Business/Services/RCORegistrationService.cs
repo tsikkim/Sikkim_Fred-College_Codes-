@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
@@ -11,11 +12,12 @@ namespace SikkimGov.Platform.Business.Services
     {
         private readonly IRCORegistrationRepository repository;
         private readonly IUserService userService;
-
-        public RCORegistrationService(IRCORegistrationRepository repository, IUserService userService)
+        private readonly IDepartmentRepository departmentRepository;
+        public RCORegistrationService(IRCORegistrationRepository repository, IUserService userService, IDepartmentRepository departmentRepository)
         {
             this.repository = repository;
             this.userService = userService;
+            this.departmentRepository = departmentRepository;
         }
 
         public RCORegistrationModel SaveRegistration(RCORegistrationModel registrationModel)
@@ -27,11 +29,19 @@ namespace SikkimGov.Platform.Business.Services
                 throw new UserAlreadyExistsException($"User with email {registrationModel.EmailId} already exist.");
             }
 
+            var department = this.departmentRepository.GetDepartmentById(registrationModel.DepartmentId);
+
+            if(department == null)
+            {
+                throw new InvalidInputException("DepartmentId is not valid.");
+            }
+
             var registration = new RCORegistration();
 
             registration.AdminName = registrationModel.AdminName;
             registration.ContactNumber = registrationModel.ContactNumber;
-            registration.Department = registrationModel.Department;
+            registration.DepartmentId = registrationModel.DepartmentId;
+            registration.Department = department.Name;
             registration.Designation = registrationModel.Designation;
             registration.District = registrationModel.District;
             registration.EmailId = registrationModel.EmailId;
@@ -41,7 +51,7 @@ namespace SikkimGov.Platform.Business.Services
             registration.TINNumber = registrationModel.TINNumber;
             registration.TANNumber = registrationModel.TANNumber;
 
-            this.repository.SaveRCORegistration(registration);
+            this.repository.CreateRCORegistration(registration);
 
             var user = new User();
             user.EmailId = registrationModel.EmailId;

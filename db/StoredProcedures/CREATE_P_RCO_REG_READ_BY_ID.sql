@@ -15,6 +15,7 @@ BEGIN TRY
 
  SELECT [RCO_Name_Of_Administrator]
       ,[Type_Of_Reg]
+	  ,[RCO_Dept_Id]
       ,[RCO_Department]
       ,[RCO_Designation]
       ,[RCO_District]

@@ -8,6 +8,7 @@ namespace SikkimGov.Platform.Models.DomainModels
         public string AdminName { get; set; }
         public string RegistrationType { get; set; }
         public string Department { get; set; }
+        public int DepartmentId { get; set; }
         public string Designation { get; set; }
         public string District { get; set; }
         public string OfficeAddress1 { get; set; }

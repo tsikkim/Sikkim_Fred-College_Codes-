@@ -15,7 +15,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
         private const string RDO_REG_UPDATE_STATUS_COMMAND = "P_RCO_REG_UPDATE_STATUS";
         private const string RCO_REG_DETAILS_READ_BY_STATUS_COMMAND = "P_RCO_REG_DETAILS_READ_BY_STATUS";
 
-        public RCORegistration SaveRCORegistration(RCORegistration rcoRegistration)
+        public RCORegistration CreateRCORegistration(RCORegistration rcoRegistration)
         {
             using (var connection = GetConnection())
             {
@@ -25,6 +25,8 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                     var parameter = new SqlParameter("@RCO_Name_Of_Administrator", rcoRegistration.AdminName);
                     command.Parameters.Add(parameter);
                     parameter = new SqlParameter("@Type_Of_Reg", rcoRegistration.RegistrationType);
+                    command.Parameters.Add(parameter);
+                    parameter = new SqlParameter("@RCO_Dept_Id", rcoRegistration.DepartmentId);
                     command.Parameters.Add(parameter);
                     parameter = new SqlParameter("@RCO_Department", rcoRegistration.Department);
                     command.Parameters.Add(parameter);
@@ -101,6 +103,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             rcoRegistration.Id = Convert.ToInt64(reader["REG_ID"]);
                             rcoRegistration.AdminName = reader["RCO_Name_Of_Administrator"].ToString();
                             rcoRegistration.RegistrationType = reader["Type_Of_Reg"].ToString();
+                            rcoRegistration.DepartmentId = Convert.ToInt32(reader["RCO_Dept_Id"]);
                             rcoRegistration.Department = reader["RCO_Department"].ToString();
                             rcoRegistration.Designation = reader["RCO_Designation"].ToString();
                             rcoRegistration.District = reader["RCO_District"].ToString();
@@ -148,6 +151,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             var ddoRegistration = new RCORegistrationDetails();
                             ddoRegistration.Id = Convert.ToInt64(reader["REG_ID"]);
                             ddoRegistration.AdminName = reader["RCO_Name_Of_Administrator"] == DBNull.Value ? "" : reader["RCO_Name_Of_Administrator"].ToString();
+                            ddoRegistration.DepartmentId = reader["RCO_Dept_Id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["RCO_Dept_Id"]);
                             ddoRegistration.Department = reader["RCO_Department"] == DBNull.Value ? "" : reader["RCO_Department"].ToString();
                             ddoRegistration.RegistrationType = reader["Type_Of_Reg"] == DBNull.Value ? "" : reader["Type_Of_Reg"].ToString();
                             ddoRegistration.Designation = reader["RCO_Designation"] == DBNull.Value ? "" : reader["RCO_Designation"].ToString();

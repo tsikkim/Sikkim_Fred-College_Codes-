@@ -31,11 +31,16 @@ namespace SikkimGov.Platform.Api.Controllers
                 else
                 {
                     this.registraionService.SaveRegistration(rcoRegistration);
-                    this.Response.StatusCode = (int)HttpStatusCode.Created;
+                    this.Response.StatusCode = (int)HttpStatusCode.OK;
                     return new EmptyResult();
                 }
             }
             catch (UserAlreadyExistsException ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return new JsonResult(new { Error = new { Message = ex.Message } });
+            }
+            catch(InvalidInputException ex)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return new JsonResult(new { Error = new { Message = ex.Message } });

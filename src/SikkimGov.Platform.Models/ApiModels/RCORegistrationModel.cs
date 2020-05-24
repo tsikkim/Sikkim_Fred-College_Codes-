@@ -11,7 +11,7 @@ namespace SikkimGov.Platform.Models.ApiModels
         [Required]
         public string RegistrationType { get; set; }
         [Required]
-        public string Department { get; set; }
+        public int DepartmentId { get; set; }
         [Required]
         public string Designation { get; set; }
         [Required]
