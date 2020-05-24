@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -10,11 +11,16 @@ namespace SikkimGov.Platform.Business.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly string Secret = "";
+        private readonly string secret;
+
+        public TokenService()
+        {
+            this.secret = ConfigurationManager.AppSettings["jwtTokenSecret"];
+        }
         public string GenerateJSONWebToken(AuthenticationResult loginResult)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(Secret);
+            var key = Encoding.ASCII.GetBytes(secret);
 
             string email = loginResult.UserName;
 
