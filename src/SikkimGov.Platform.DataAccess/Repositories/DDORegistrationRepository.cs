@@ -87,6 +87,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             ddoRegistration.TINNumber = reader["TIN_NO"] == DBNull.Value ? "" : reader["TIN_NO"].ToString();
                             ddoRegistration.TANNumber = reader["TAN_NO"] == DBNull.Value ? "" : reader["TAN_NO"].ToString();
                             ddoRegistration.EmailId = reader["EMAIL"] == DBNull.Value ? "" : reader["EMAIL"].ToString();
+                            ddoRegistration.ContactNumber = reader["CONTACT_NO"] == DBNull.Value ? "" : reader["CONTACT_NO"].ToString();
                             ddoRegistration.Status = Convert.ToBoolean(reader["CUR_STATUS"]);
                             ddoRegistration.StatusName = reader["STATUS_NAME"].ToString();
                             ddoRegistration.CreateAt = Convert.ToDateTime(reader["ENTRY_TIME"]);
@@ -152,7 +153,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             ddoRegistration.TINNumber = reader["TIN_NO"] == DBNull.Value ? "" : reader["TIN_NO"].ToString();
                             ddoRegistration.TANNumber = reader["TAN_NO"].ToString();
                             ddoRegistration.EmailId = reader["EMAIL"].ToString();
-                            ddoRegistration.ContactNumber = reader["CONTACT_N0"].ToString();
+                            ddoRegistration.ContactNumber = reader["CONTACT_NO"].ToString();
                             ddoRegistration.Status = Convert.ToBoolean(reader["CUR_STATUS"]);
                             ddoRegistration.CreateAt = Convert.ToDateTime(reader["ENTRY_TIME"]);
                             ddoRegistration.ApprovedBy = reader["PASSED_BY"] == DBNull.Value ? 0 : Convert.ToInt32(reader["PASSED_BY"]);

@@ -23,7 +23,7 @@ BEGIN TRY
       ,[TIN_NO]  
       ,[TAN_NO]  
       ,[EMAIL]  
-      ,[CONTACT_N0]  
+      ,[CONTACT_N0]  AS [CONTACT_NO]
       ,[CUR_STATUS]  
       ,[ENTRY_TIME]  
       ,[PASSED_BY]  

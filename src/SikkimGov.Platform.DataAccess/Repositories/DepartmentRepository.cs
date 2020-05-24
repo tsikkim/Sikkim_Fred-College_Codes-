@@ -44,7 +44,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                 using (var command = new SqlCommand(DEPT_READ_COMMAND, connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    var parameter = new SqlParameter("@DEPT_ID", departmentId);
+                    var parameter = new SqlParameter("@DEMAND_ID", departmentId);
                     command.Parameters.Add(parameter);
                     connection.Open();
 
@@ -53,8 +53,8 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                         if (reader.Read())
                         {
                             var department = new Department();
-                            department.Id = reader.GetInt32(0);
-                            department.Name = reader.GetString(1);
+                            department.Id = Convert.ToInt32(reader["DEMAND_ID"]);
+                            department.Name = reader["DEMAND_DESC"].ToString();
                             return department;
                         }
                     }
