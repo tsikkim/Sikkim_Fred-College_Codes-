@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.Models.ApiModels;
@@ -14,10 +15,11 @@ namespace SikkimGov.Platform.Api.Controllers
     public class DDORegistrationController : ControllerBase
     {
         private readonly IDDORegistraionService registraionService;
-
-        public DDORegistrationController(IDDORegistraionService registraionService)
+        private readonly ILogger<DDORegistrationController> logger;
+        public DDORegistrationController(IDDORegistraionService registraionService, ILogger<DDORegistrationController> logger)
         {
             this.registraionService = registraionService;
+            this.logger = logger;
         }
 
         // POST: api/DDORegistration
@@ -36,11 +38,13 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch (UserAlreadyExistsException ex)
             {
+                this.logger.LogError(ex, "Error while creating DDO Registration.");
                 this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return new JsonResult(new { Error = new { Message = ex.Message } });
             }
             catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error while creating DDO Registration.");
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
@@ -76,6 +80,7 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error while getting {0} DDO Registrations.", status);
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
@@ -99,11 +104,13 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch (NotFoundException ex)
             {
+                this.logger.LogError(ex, "Error while approving DDO Registration with Id - {0}", model.RegId);
                 this.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return new JsonResult(new { Error = new { Message = ex.Message } });
             }
             catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error while approving DDO Registration with Id - {0}", model.RegId);
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
@@ -119,11 +126,13 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch (NotFoundException ex)
             {
+                this.logger.LogError(ex, "Error while deleting DDO Registration with Id - {0}", regId);
                 this.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return new JsonResult(new { Error = new { Message = ex.Message } });
             }
             catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error while deleting DDO Registration with Id - {0}", regId);
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
