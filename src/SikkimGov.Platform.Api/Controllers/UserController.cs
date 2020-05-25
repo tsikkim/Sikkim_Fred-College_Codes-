@@ -40,7 +40,7 @@ namespace SikkimGov.Platform.Api.Controllers
                 }
 
                 this.userService.SendLoginDetails(model.UserName);
-                return new EmptyResult();
+                return new JsonResult(new { Msg = "success" });
             }
             catch (NotFoundException ex)
             {

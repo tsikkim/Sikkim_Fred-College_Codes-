@@ -33,7 +33,7 @@ namespace SikkimGov.Platform.Api.Controllers
                 else
                 {
                     this.registraionService.SaveRegistration(ddoRegistration);
-                    return new EmptyResult();
+                    return new JsonResult(new { Msg = "success" });
                 }
             }
             catch (UserAlreadyExistsException ex)
@@ -99,7 +99,7 @@ namespace SikkimGov.Platform.Api.Controllers
                 else
                 {
                     this.registraionService.ApproveDDORegistration(model.RegId, model.ApprovedBy);
-                    return new EmptyResult();
+                    return new JsonResult(new { Msg = "success" });
                 }
             }
             catch (NotFoundException ex)
@@ -122,7 +122,7 @@ namespace SikkimGov.Platform.Api.Controllers
             try
             {
                 this.registraionService.RejectDDORegistration(regId);
-                return new EmptyResult();
+                return new JsonResult(new { Msg = "success" });
             }
             catch (NotFoundException ex)
             {

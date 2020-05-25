@@ -32,7 +32,7 @@ namespace SikkimGov.Platform.Api.Controllers
                 {
                     this.registraionService.SaveRegistration(rcoRegistration);
                     this.Response.StatusCode = (int)HttpStatusCode.OK;
-                    return new EmptyResult();
+                    return new JsonResult(new { Msg = "success" });
                 }
             }
             catch (UserAlreadyExistsException ex)
@@ -65,7 +65,7 @@ namespace SikkimGov.Platform.Api.Controllers
                 else
                 {
                     this.registraionService.ApproveRCORegistration(model.RegId, model.ApprovedBy);
-                    return new EmptyResult();
+                    return new JsonResult(new { Msg = "success" });
                 }
             }
             catch (NotFoundException ex)
@@ -86,7 +86,7 @@ namespace SikkimGov.Platform.Api.Controllers
             try
             {
                 this.registraionService.RejectRCORegistration(regId);
-                return new EmptyResult();
+                return new JsonResult(new { Msg = "success" });
             }
             catch (NotFoundException ex)
             {
