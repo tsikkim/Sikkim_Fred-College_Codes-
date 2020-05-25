@@ -7,5 +7,6 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
     {
         List<DDOBase> GetDDOBaseByDeparmentId(int deparmentId);
         DDODetails GetDDODetailsByDDOCode(string ddoCode);
+        List<DDOBase> GetAllDDOCodeBases();
     }
 }

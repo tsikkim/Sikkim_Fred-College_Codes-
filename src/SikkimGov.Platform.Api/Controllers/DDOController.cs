@@ -21,6 +21,23 @@ namespace SikkimGov.Platform.Api.Controllers
             this.logger = logger;
         }
 
+        [HttpGet]
+        public ActionResult Get()
+        {
+            try
+            {
+                var ddoList = this.ddoRepository.GetAllDDOCodeBases();
+
+                return new JsonResult(ddoList);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error while getting all DDOs.");
+                this.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
+        }
+
         [Route("search")]
         [HttpGet]
         public ActionResult Get([FromQuery] int deptId)

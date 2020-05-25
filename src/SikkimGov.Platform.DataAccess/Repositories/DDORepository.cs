@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using SikkimGov.Platform.DataAccess.Core;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
@@ -10,10 +11,12 @@ namespace SikkimGov.Platform.DataAccess.Repositories
     {
         private const string DDOBASE_READ_COMMAND = "P_READ_DDO";
         private const string DDODETAILS_READ_COMMAND = "P_READ_DDO_DETAILS";
+        private const string DDOBASE_READ_ALL_COMMAND = "P_READ_ALL_DDO";
+
 
         public List<DDOBase> GetDDOBaseByDeparmentId(int deparmentId)
         {
-            var departments = new List<DDOBase>();
+            var ddoList = new List<DDOBase>();
             using (var connection = GetConnection())
             {
                 using (var command = new SqlCommand(DDOBASE_READ_COMMAND, connection))
@@ -26,15 +29,15 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                     {
                         while (reader.Read())
                         {
-                            var dep = new DDOBase();
-                            dep.Id = reader.GetInt32(0);
-                            dep.Code = reader.GetString(1);
-                            departments.Add(dep);
+                            var ddo = new DDOBase();
+                            ddo.Id = reader.GetInt32(0);
+                            ddo.Code = reader.GetString(1);
+                            ddoList.Add(ddo);
                         }
                     }
                 }
             }
-            return departments;
+            return ddoList;
         }
 
         public DDODetails GetDDODetailsByDDOCode(string ddoCode)
@@ -67,6 +70,31 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                 }
             }
             return null;
+        }
+
+        public List<DDOBase> GetAllDDOCodeBases()
+        {
+            var ddoList = new List<DDOBase>();
+            using (var connection = GetConnection())
+            {
+                using (var command = new SqlCommand(DDOBASE_READ_ALL_COMMAND, connection))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    connection.Open();
+                    using (var reader = command.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                    {
+                        while (reader.Read())
+                        {
+                            var ddo = new DDOBase();
+                            ddo.Id = Convert.ToInt32(reader["DDO_ID"]);
+                            ddo.Code = reader["DDO_CODE"].ToString();
+                            ddo.DepartmentId = Convert.ToInt32(reader["DEPT_ID"]);
+                            ddoList.Add(ddo);
+                        }
+                    }
+                }
+            }
+            return ddoList;
         }
     }
 }
