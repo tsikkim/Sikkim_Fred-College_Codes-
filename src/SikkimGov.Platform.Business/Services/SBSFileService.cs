@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
@@ -44,8 +45,8 @@ namespace SikkimGov.Platform.Business.Services
                 sbsPayment.BranchCode = lineItems[0].Trim();
                 sbsPayment.BranchName = lineItems[1].Trim();
                 sbsPayment.DepartmentID  = Convert.ToInt32(lineItems[2].Trim());
-                sbsPayment.ChequeDate = Convert.ToDateTime(lineItems[3].Trim());
-                sbsPayment.PaymentDate = Convert.ToDateTime(lineItems[4].Trim());
+                sbsPayment.ChequeDate = DateTime.ParseExact(lineItems[3].Trim(), "dd/MM/yyyy", null);
+                sbsPayment.PaymentDate = DateTime.ParseExact(lineItems[4].Trim(), "dd/MM/yyyy", null);
                 sbsPayment.ChequeNumber = lineItems[5].Trim();
                 sbsPayment.ChequeAmount = Convert.ToDecimal(lineItems[6].Trim());
                 sbsPayment.PlanNonPlan = lineItems[7].Trim();
