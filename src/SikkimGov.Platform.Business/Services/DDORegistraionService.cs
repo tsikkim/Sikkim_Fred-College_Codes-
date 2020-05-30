@@ -39,14 +39,15 @@ namespace SikkimGov.Platform.Business.Services
             ddoRegistration.OfficeAddress2 = registrationModel.OfficeAddress2;
             ddoRegistration.TINNumber = registrationModel.TINNumber;
             ddoRegistration.TANNumber = registrationModel.TANNumber;
+            ddoRegistration.CreatedDate = DateTime.Now;
+            ddoRegistration.IsApproved = false;
 
             var newRegistration = this.repository.CreateDDORegistration(ddoRegistration);
 
             var user = new User();
             //user.DDOCode = registrationModel.DDOCode;
             user.UserType = UserType.DDOUser;
-            user.UserName = registrationModel.EmailId;
-            user.EmailId = registrationModel.EmailId;
+            user.EmailID = registrationModel.EmailId;
 
             //user.DepartmentId = registrationModel.DepartmentId;
 

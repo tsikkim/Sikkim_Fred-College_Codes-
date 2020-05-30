@@ -9,6 +9,8 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 
         User SaveUser(User user);
 
+        User UpdateUser(User user);
+
         bool DeleteUser(User user);
 
         void DeleteUser(long userId);

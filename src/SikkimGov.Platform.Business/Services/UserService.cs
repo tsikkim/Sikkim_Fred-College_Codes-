@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.Common.External.Contracts;
@@ -30,7 +31,9 @@ namespace SikkimGov.Platform.Business.Services
 
         public User CreateUser(User user)
         {
-            if(string.IsNullOrEmpty(user.Password))
+            user.CreatedDate = DateTime.Now;
+            user.IsActive = false;
+            if (string.IsNullOrEmpty(user.Password))
             {
                 user.Password = cryptoService.Encrypt(PasswordGenerator.GenerateRandomPassword(8));
             }
@@ -56,6 +59,9 @@ namespace SikkimGov.Platform.Business.Services
 
             if (user != null)
             {
+                user.IsActive = true;
+                this.userRepository.UpdateUser(user);
+
                 var decryptedPassword = this.cryptoService.Decrypt(user.Password);
                 LoginDetailsEmailModel emailModel = new LoginDetailsEmailModel();
                 emailModel.ReceiverEmail = userName;
