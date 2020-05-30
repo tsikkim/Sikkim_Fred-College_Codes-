@@ -6,7 +6,7 @@ using SikkimGov.Platform.Common.Models;
 using SikkimGov.Platform.Common.Security.Contracts;
 using SikkimGov.Platform.Common.Utilities;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
-using SikkimGov.Platform.Models.DomainModels;
+using SikkimGov.Platform.Models.Domain;
 
 namespace SikkimGov.Platform.Business.Services
 {
@@ -90,17 +90,17 @@ namespace SikkimGov.Platform.Business.Services
             this.emailService.SendLoginDetails(emailModel);
         }
 
-        public List<UserDetails> GetDDOUserDetails()
+        public List<Models.DomainModels.UserDetails> GetDDOUserDetails()
         {
             return this.userRepository.GetDDOUserDetails();
         }
 
-        public List<UserDetails> GetRCOUserDetails()
+        public List<Models.DomainModels.UserDetails> GetRCOUserDetails()
         {
             return this.userRepository.GetRCOUserDetails();
         }
 
-        public List<UserDetails> GetAdminUserDetails()
+        public List<Models.DomainModels.UserDetails> GetAdminUserDetails()
         {
             return this.userRepository.GetAdminUserDetails();
         }

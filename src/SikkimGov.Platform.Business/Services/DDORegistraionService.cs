@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualBasic;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.ApiModels;
-using SikkimGov.Platform.Models.DomainModels;
+using SikkimGov.Platform.Models.Domain;
 
 namespace SikkimGov.Platform.Business.Services
 {
@@ -20,7 +19,7 @@ namespace SikkimGov.Platform.Business.Services
             this.userService = userService;
         }
 
-        public Models.Domain.DDORegistration SaveRegistration(DDORegistrationModel registrationModel)
+        public DDORegistration SaveRegistration(DDORegistrationModel registrationModel)
         {
             var userExist = this.userService.IsUserExists(registrationModel.EmailId);
 
@@ -29,7 +28,7 @@ namespace SikkimGov.Platform.Business.Services
                 throw new UserAlreadyExistsException($"User with email {registrationModel.EmailId} already exist.");
             }
 
-            var ddoRegistration = new Models.Domain.DDORegistration();
+            var ddoRegistration = new DDORegistration();
             ddoRegistration.DepartmentID = registrationModel.DepartmentId;
             ddoRegistration.DistrictID= registrationModel.DistrictId;
             ddoRegistration.DesignationID = registrationModel.DesignationId;
@@ -44,28 +43,29 @@ namespace SikkimGov.Platform.Business.Services
             var newRegistration = this.repository.CreateDDORegistration(ddoRegistration);
 
             var user = new User();
-            user.DDOCode = registrationModel.DDOCode;
-            user.IsDDOUser = true;
+            //user.DDOCode = registrationModel.DDOCode;
+            user.UserType = UserType.DDOUser;
             user.UserName = registrationModel.EmailId;
             user.EmailId = registrationModel.EmailId;
-            user.DepartmentId = registrationModel.DepartmentId;
+
+            //user.DepartmentId = registrationModel.DepartmentId;
 
             this.userService.CreateUser(user);
 
             return newRegistration;
         }
 
-        public List<DDORegistrationDetails> GetAllRegistrations()
+        public List<Models.DomainModels.DDORegistrationDetails> GetAllRegistrations()
         {
             return this.repository.GetDDORegistrationsByStatus(null);
         }
 
-        public List<DDORegistrationDetails> GetPendingRegistrations()
+        public List<Models.DomainModels.DDORegistrationDetails> GetPendingRegistrations()
         {
             return this.repository.GetDDORegistrationsByStatus(false);
         }
-
-        public List<DDORegistrationDetails> GetApprovedRegistrations()
+        
+        public List<Models.DomainModels.DDORegistrationDetails> GetApprovedRegistrations()
         {
             return this.repository.GetDDORegistrationsByStatus(true);
         }

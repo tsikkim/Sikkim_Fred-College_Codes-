@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using SikkimGov.Platform.Models.ApiModels;
-using SikkimGov.Platform.Models.DomainModels;
+using SikkimGov.Platform.Models.Domain;
 
 namespace SikkimGov.Platform.Business.Services.Contracts
 {
     public interface IDDORegistraionService
     {
-        Models.Domain.DDORegistration SaveRegistration(DDORegistrationModel registration);
+        DDORegistration SaveRegistration(DDORegistrationModel registration);
 
-        List<DDORegistrationDetails> GetAllRegistrations();
+        List<Models.DomainModels.DDORegistrationDetails> GetAllRegistrations();
 
-        List<DDORegistrationDetails> GetPendingRegistrations();
+        List<Models.DomainModels.DDORegistrationDetails> GetPendingRegistrations();
 
-        List<DDORegistrationDetails> GetApprovedRegistrations();
+        List<Models.DomainModels.DDORegistrationDetails> GetApprovedRegistrations();
 
         void RejectDDORegistration(long ddoRegistrationId);
 

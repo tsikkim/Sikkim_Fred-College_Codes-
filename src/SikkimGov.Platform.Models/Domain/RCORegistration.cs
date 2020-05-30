@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SikkimGov.Platform.Models.Domain
@@ -6,6 +7,7 @@ namespace SikkimGov.Platform.Models.Domain
     [Table("RCORegistration")]
     public class RCORegistration
     {
+        [Key]
         public int RegistrationID { get; set; }
 
         public string RegistrationType { get; set; }

@@ -32,13 +32,13 @@ namespace SikkimGov.Platform.Business.Services
                 {
                     result.IsAuthenticated = true;
                     result.UserName = user.UserName;
-                    result.IsAdmin = user.IsAdmin;
-                    result.DDOCode = user.DDOCode;
-                    result.DepartmentId = user.DepartmentId.HasValue ? user.DepartmentId.Value : 0;
-                    result.IsDDO = user.IsDDOUser;
-                    result.IsRCO = user.IsRCOUser;
-                    result.IsSuperAdmin = user.IsSuperAdmin;
-                    result.UserId = user.Id;
+                    result.IsAdmin = user.UserType == Models.Domain.UserType.Admin;
+                    //result.DDOCode = user.DDOCode;
+                    //result.DepartmentId = user.DepartmentId.HasValue ? user.DepartmentId.Value : 0;
+                    result.IsDDO = user.UserType == Models.Domain.UserType.DDOUser;
+                    result.IsRCO = user.UserType == Models.Domain.UserType.RCOUser;
+                    result.IsSuperAdmin = user.UserType == Models.Domain.UserType.SupertAdmin;
+                    result.UserId = user.UserId;
 
                     var token = this.tokenService.GenerateJSONWebToken(result);
 

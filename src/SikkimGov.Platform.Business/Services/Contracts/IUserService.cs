@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SikkimGov.Platform.Models.DomainModels;
+using SikkimGov.Platform.Models.Domain;
 
 namespace SikkimGov.Platform.Business.Services.Contracts
 {
@@ -17,10 +17,10 @@ namespace SikkimGov.Platform.Business.Services.Contracts
 
         void SendLoginDetails(string userName);
 
-        List<UserDetails> GetDDOUserDetails();
+        List<Models.DomainModels.UserDetails> GetDDOUserDetails();
 
-        List<UserDetails> GetRCOUserDetails();
+        List<Models.DomainModels.UserDetails> GetRCOUserDetails();
 
-        List<UserDetails> GetAdminUserDetails();
+        List<Models.DomainModels.UserDetails> GetAdminUserDetails();
     }
 }

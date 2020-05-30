@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using SikkimGov.Platform.Models.Domain;
 
@@ -20,6 +19,10 @@ namespace SikkimGov.Platform.DataAccess.Core
         DbSet<DDORegistration> DDORegistrations { get; set; }
 
         DbSet<RCORegistration> RCORegistrations { get; set; }
+
+        DbSet<User> Users { get; set; }
+
+        DbSet<DDOInfo> DDOInfos { get; set; }
 
         void AddEntities<T>(IList<T> entities) where T : class;
 
