@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.VisualBasic;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
@@ -18,7 +20,7 @@ namespace SikkimGov.Platform.Business.Services
             this.userService = userService;
         }
 
-        public DDORegistration SaveRegistration(DDORegistrationModel registrationModel)
+        public Models.Domain.DDORegistration SaveRegistration(DDORegistrationModel registrationModel)
         {
             var userExist = this.userService.IsUserExists(registrationModel.EmailId);
 
@@ -27,12 +29,12 @@ namespace SikkimGov.Platform.Business.Services
                 throw new UserAlreadyExistsException($"User with email {registrationModel.EmailId} already exist.");
             }
 
-            var ddoRegistration = new DDORegistration();
-            ddoRegistration.DepartmentId = registrationModel.DepartmentId;
-            ddoRegistration.DistrictId = registrationModel.DistrictId;
-            ddoRegistration.DesignationId = registrationModel.DesignationId;
+            var ddoRegistration = new Models.Domain.DDORegistration();
+            ddoRegistration.DepartmentID = registrationModel.DepartmentId;
+            ddoRegistration.DistrictID= registrationModel.DistrictId;
+            ddoRegistration.DesignationID = registrationModel.DesignationId;
             ddoRegistration.DDOCode = registrationModel.DDOCode;
-            ddoRegistration.EmailId = registrationModel.EmailId;
+            ddoRegistration.EmailID = registrationModel.EmailId;
             ddoRegistration.ContactNumber = registrationModel.ContactNumber;
             ddoRegistration.OfficeAddress1 = registrationModel.OfficeAddress1;
             ddoRegistration.OfficeAddress2 = registrationModel.OfficeAddress2;
@@ -74,9 +76,13 @@ namespace SikkimGov.Platform.Business.Services
 
             if (registration != null)
             {
-                var emailId = registration.EmailId;
+                registration.IsApproved = true;
+                registration.ApprovedBy = approvedby;
+                registration.ApprovedDate = DateTime.Now;
 
-                this.repository.UpdateDDORegistrationStatus(ddoRegistrationId, true, approvedby);
+                var emailId = registration.EmailID;
+
+                this.repository.UpdateRegistration(registration);
                 this.userService.ApproveUser(emailId);
             }
             else
@@ -91,9 +97,9 @@ namespace SikkimGov.Platform.Business.Services
 
             if (registration != null)
             {
-                var emailId = registration.EmailId;
+                var emailId = registration.EmailID;
 
-                this.repository.DeleteDDORegistration(ddoRegistrationId);
+                this.repository.DeleteDDORegistration(registration);
                 this.userService.DeleteUserByUserName(emailId);
             }
             else

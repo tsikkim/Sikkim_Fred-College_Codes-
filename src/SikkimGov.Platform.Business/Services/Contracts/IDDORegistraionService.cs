@@ -6,7 +6,7 @@ namespace SikkimGov.Platform.Business.Services.Contracts
 {
     public interface IDDORegistraionService
     {
-        DDORegistration SaveRegistration(DDORegistrationModel registration);
+        Models.Domain.DDORegistration SaveRegistration(DDORegistrationModel registration);
 
         List<DDORegistrationDetails> GetAllRegistrations();
 

@@ -9,7 +9,6 @@ namespace SikkimGov.Platform.DataAccess.Core
     {
         public SikkimFredDbContext(DbContextOptions options) : base(options)
         {
-
         }
 
         public virtual DbSet<Department> Departments { get; set; }

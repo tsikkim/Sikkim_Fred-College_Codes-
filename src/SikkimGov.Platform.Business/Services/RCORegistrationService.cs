@@ -4,7 +4,7 @@ using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.ApiModels;
-using SikkimGov.Platform.Models.DomainModels;
+using SikkimGov.Platform.Models.Domain;
 
 namespace SikkimGov.Platform.Business.Services
 {
@@ -40,11 +40,10 @@ namespace SikkimGov.Platform.Business.Services
 
             registration.AdminName = registrationModel.AdminName;
             registration.ContactNumber = registrationModel.ContactNumber;
-            registration.DepartmentId = registrationModel.DepartmentId;
-            registration.Department = department.Name;
+            registration.DepartmentID = registrationModel.DepartmentId;
             registration.Designation = registrationModel.Designation;
             registration.District = registrationModel.District;
-            registration.EmailId = registrationModel.EmailId;
+            registration.EmailID = registrationModel.EmailId;
             registration.OfficeAddress1 = registrationModel.OfficeAddress1;
             registration.OfficeAddress2 = registrationModel.OfficeAddress2;
             registration.RegistrationType = registrationModel.RegistrationType;
@@ -53,13 +52,13 @@ namespace SikkimGov.Platform.Business.Services
 
             this.repository.CreateRCORegistration(registration);
 
-            var user = new User();
-            user.EmailId = registrationModel.EmailId;
-            user.IsRCOUser = true;
-            user.UserName = registrationModel.EmailId;
-            user.EmailId = registrationModel.EmailId;
+            //var user = new User();
+            //user.EmailId = registrationModel.EmailId;
+            //user.IsRCOUser = true;
+            //user.UserName = registrationModel.EmailId;
+            //user.EmailId = registrationModel.EmailId;
 
-            this.userService.CreateUser(user);
+            //this.userService.CreateUser(user);
 
             return registrationModel;
         }
@@ -70,9 +69,12 @@ namespace SikkimGov.Platform.Business.Services
 
             if (registration != null)
             {
-                var emailId = registration.EmailId;
+                var emailId = registration.EmailID;
 
-                this.repository.UpdateDDORegistrationStatus(rcoRegistrationId, true, approvedby);
+                registration.IsApproved = true;
+                registration.ApprovedDate = DateTime.Now;
+                registration.ApprovedBy = approvedby;
+                this.repository.UpdateRegistration(registration);
                 this.userService.ApproveUser(emailId);
             }
             else
@@ -87,9 +89,9 @@ namespace SikkimGov.Platform.Business.Services
 
             if (registration != null)
             {
-                var emailId = registration.EmailId;
+                var emailId = registration.EmailID;
 
-                this.repository.DeleteRCORegistration(rcoRegistrationId);
+                this.repository.DeleteRCORegistration(registration);
                 this.userService.DeleteUserByUserName(emailId);
             }
             else
@@ -98,17 +100,17 @@ namespace SikkimGov.Platform.Business.Services
             }
         }
 
-        public List<RCORegistrationDetails> GetAllRegistrations()
+        public List<Models.DomainModels.RCORegistrationDetails> GetAllRegistrations()
         {
             return this.repository.GetRCORegistrationsByStatus(null);
         }
 
-        public List<RCORegistrationDetails> GetPendingRegistrations()
+        public List<Models.DomainModels.RCORegistrationDetails> GetPendingRegistrations()
         {
             return this.repository.GetRCORegistrationsByStatus(false);
         }
 
-        public List<RCORegistrationDetails> GetApprovedRegistrations()
+        public List<Models.DomainModels.RCORegistrationDetails> GetApprovedRegistrations()
         {
             return this.repository.GetRCORegistrationsByStatus(true);
         }

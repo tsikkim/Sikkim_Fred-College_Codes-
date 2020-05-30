@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SikkimGov.Platform.Models.DomainModels;
+using SikkimGov.Platform.Models.Domain;
 
 namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 {
@@ -7,12 +7,12 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
     {
         RCORegistration CreateRCORegistration(RCORegistration rcoRegistration);
 
-        bool DeleteRCORegistration(long rcoRegistrationId);
+        bool DeleteRCORegistration(RCORegistration registration);
 
         RCORegistration GetRCORegistrationById(long rcoRegistrationId);
 
-        bool UpdateDDORegistrationStatus(long ddoRegistrationId, bool status, int updatedBy);
+        RCORegistration UpdateRegistration(RCORegistration rcoRegistration);
 
-        List<RCORegistrationDetails> GetRCORegistrationsByStatus(bool? status);
+        List<Models.DomainModels.RCORegistrationDetails> GetRCORegistrationsByStatus(bool? status);
     }
 }

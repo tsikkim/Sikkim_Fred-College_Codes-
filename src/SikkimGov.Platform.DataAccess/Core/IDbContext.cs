@@ -17,6 +17,12 @@ namespace SikkimGov.Platform.DataAccess.Core
 
         DbSet<SBSReceipt> SBSReceipts { get; set; }
 
+        DbSet<DDORegistration> DDORegistrations { get; set; }
+
+        DbSet<RCORegistration> RCORegistrations { get; set; }
+
         void AddEntities<T>(IList<T> entities) where T : class;
+
+        int SaveChanges();
     }
 }
