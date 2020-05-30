@@ -1,5 +1,7 @@
+using System.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,6 +11,7 @@ using SikkimGov.Platform.Common.External;
 using SikkimGov.Platform.Common.External.Contracts;
 using SikkimGov.Platform.Common.Security;
 using SikkimGov.Platform.Common.Security.Contracts;
+using SikkimGov.Platform.DataAccess.Core;
 using SikkimGov.Platform.DataAccess.Repositories;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 
@@ -26,12 +29,17 @@ namespace SikkimGov.Platform.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<SikkimFredDbContext>(options => options.UseSqlServer("Data Source=localhost; Initial Catalog=SikkimFredDatabase;User ID=user; Password=password;"));
+
+            services.AddScoped<IDbContext, SikkimFredDbContext>();
+
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IDDORepository, DDORepository>();
             services.AddScoped<IDDORegistrationRepository, DDORegistrationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDDORegistraionService, DDORegistraionService>();
             services.AddScoped<IRCORegistrationRepository, RCORegistrationRepository>();
+
             services.AddScoped<IRCORegistrationService, RCORegistrationService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<ICryptoService, CryptoService>();

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using SikkimGov.Platform.Models.DomainModels;
+using SikkimGov.Platform.Models.Domain;
 
 namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 {
     public interface IDepartmentRepository
     {
-        List<Department> GetAllDepartments();
+        IEnumerable<Department> GetAllDepartments();
         Department GetDepartmentById(long departmentId);
     }
 }
