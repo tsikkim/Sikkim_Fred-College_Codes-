@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SikkimGov.Platform.Business.Services.Contracts;
-using SikkimGov.Platform.DataAccess.Core;
 using SikkimGov.Platform.Models.ApiModels;
-using SikkimGov.Platform.Models.Domain;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,27 +15,12 @@ namespace SikkimGov.Platform.Api.Controllers
     public class SBSFileController : ControllerBase
     {
         private readonly ISBSFileService fileService;
-        private readonly IDbContext dbContext;
         private readonly ILogger<SBSFileController> logger;
 
-        public SBSFileController(IDbContext dbContext, ISBSFileService fileService, ILogger<SBSFileController> logger)
+        public SBSFileController(ISBSFileService fileService, ILogger<SBSFileController> logger)
         {
-            this.dbContext = dbContext;
             this.fileService = fileService;
             this.logger = logger;
-        }
-        // GET: api/<SBSFile>
-        [HttpGet]
-        public IEnumerable<SBSPayment> Get()
-        {
-            return this.dbContext.SBSPayments;
-        }
-
-        // GET api/<SBSFile>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
         }
 
         // POST api/<SBSFile>
@@ -73,22 +55,7 @@ namespace SikkimGov.Platform.Api.Controllers
                 {
                     System.IO.File.Delete(targetFilePath);
                 }
-
-            }
-
-                            
-        }
-
-        // PUT api/<SBSFile>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<SBSFile>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            }                            
         }
     }
 }
