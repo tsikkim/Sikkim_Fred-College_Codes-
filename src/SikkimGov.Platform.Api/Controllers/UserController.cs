@@ -109,7 +109,7 @@ namespace SikkimGov.Platform.Api.Controllers
             {
                 if (string.IsNullOrEmpty(model.EmailId))
                 {
-                    return BadRequest(new { Error = new { Message = "Username can not be empty." } });
+                    return BadRequest(new { Error = new { Message = "EmailId can not be empty." } });
                 }
 
                 this.userService.SendLoginDetails(model.EmailId);
@@ -151,7 +151,7 @@ namespace SikkimGov.Platform.Api.Controllers
                     {
                         logger.LogWarning("User could not be authenticated with provided credentials.");
                         this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        return new JsonResult(new { Error = new { Message = "Invalid username or password." } });
+                        return new JsonResult(new { Error = new { Message = "Invalid emailid or password." } });
                     }
                 }
             }

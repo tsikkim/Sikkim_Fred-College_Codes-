@@ -5,15 +5,15 @@ namespace SikkimGov.Platform.Business.Services.Contracts
 {
     public interface IUserService
     {
-        bool IsUserExists(string userName);
+        bool IsUserExists(string emailId);
 
         User CreateUser(User user, string password);
 
-        void DeleteUserByUserName(string emailId);
+        void DeleteUserByEmailId(string emailId);
 
-        bool ApproveUser(string userName);
+        bool ApproveUser(string emailId);
 
-        void SendLoginDetails(string userName);
+        void SendLoginDetails(string emailId);
 
         List<Models.DomainModels.UserDetails> GetDDOUserDetails();
 

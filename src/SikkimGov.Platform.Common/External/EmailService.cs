@@ -34,7 +34,7 @@ namespace SikkimGov.Platform.Common.External
                 builder.HtmlBody = SourceReader.ReadToEnd();
             }
 
-            string messageBody = string.Format(builder.HtmlBody, model.UserName, model.EmailId, model.Password);
+            string messageBody = string.Format(builder.HtmlBody, model.ReceiverName, model.EmailId, model.Password);
 
             EmailMessageModel messageModel = new EmailMessageModel();
             messageModel.EmailBody = messageBody;

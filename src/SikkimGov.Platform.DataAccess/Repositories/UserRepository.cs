@@ -26,14 +26,14 @@ namespace SikkimGov.Platform.DataAccess.Repositories
             this.dbContext = dbContext;
         }
 
-        public bool IsUserExists(string userName)
+        public bool IsUserExists(string emailId)
         {
-            return this.dbContext.Users.Any(user => user.EmailID == userName);
+            return this.dbContext.Users.Any(user => user.EmailID == emailId);
         }
 
-        public User GetUserByUsername(string userName)
+        public User GetUserByEmailId(string emailId)
         {
-            return this.dbContext.Users.FirstOrDefault(user => user.EmailID == userName);
+            return this.dbContext.Users.FirstOrDefault(user => user.EmailID == emailId);
         }
 
         public User SaveUser(User user)

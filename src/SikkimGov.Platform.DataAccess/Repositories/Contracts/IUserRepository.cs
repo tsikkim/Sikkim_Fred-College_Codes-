@@ -5,7 +5,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 {
     public interface IUserRepository
     {
-        bool IsUserExists(string userName);
+        bool IsUserExists(string emailId);
 
         User SaveUser(User user);
 
@@ -13,7 +13,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 
         bool DeleteUser(User user);
 
-        User GetUserByUsername(string userName);
+        User GetUserByEmailId(string emailId);
 
         List<Models.DomainModels.UserDetails> GetDDOUserDetails();
 

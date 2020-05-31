@@ -94,7 +94,7 @@ namespace SikkimGov.Platform.Business.Services
                 var emailId = registration.EmailID;
 
                 this.repository.DeleteRCORegistration(registration);
-                this.userService.DeleteUserByUserName(emailId);
+                this.userService.DeleteUserByEmailId(emailId);
             }
             else
             {

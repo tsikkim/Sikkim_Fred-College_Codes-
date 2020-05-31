@@ -2,7 +2,7 @@
 {
     public class LoginDetailsEmailModel : EmailModel
     {
-        public string UserName { get; set; }
+        public string ReceiverName { get; set; }
 
         public string EmailId { get; set; }
 

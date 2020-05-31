@@ -24,9 +24,9 @@ namespace SikkimGov.Platform.Business.Services
             this.emailService = emailService;
         }
 
-        public bool IsUserExists(string userName)
+        public bool IsUserExists(string emailId)
         {
-            return this.userRepository.IsUserExists(userName);
+            return this.userRepository.IsUserExists(emailId);
         }
 
         public User CreateUser(User user, string password)
@@ -42,9 +42,9 @@ namespace SikkimGov.Platform.Business.Services
             return this.userRepository.SaveUser(user);
         }
 
-        public void DeleteUserByUserName(string userName)
+        public void DeleteUserByEmailId(string emailId)
         {
-            var user = this.userRepository.GetUserByUsername(userName);
+            var user = this.userRepository.GetUserByEmailId(emailId);
 
             if(user != null)
             {
@@ -52,9 +52,9 @@ namespace SikkimGov.Platform.Business.Services
             }
         }
 
-        public bool ApproveUser(string userName)
+        public bool ApproveUser(string emailId)
         {
-            var user = this.userRepository.GetUserByUsername(userName);
+            var user = this.userRepository.GetUserByEmailId(emailId);
 
             if (user != null)
             {
@@ -64,10 +64,10 @@ namespace SikkimGov.Platform.Business.Services
 
                 var decryptedPassword = this.cryptoService.Decrypt(user.Password);
                 LoginDetailsEmailModel emailModel = new LoginDetailsEmailModel();
-                emailModel.ReceiverEmail = userName;
-                emailModel.UserName = userName;
+                emailModel.ReceiverEmail = emailId;
+                emailModel.ReceiverName = string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.LastName) ? "user" : user.FirstName + " " + user.LastName;
                 emailModel.Password = decryptedPassword;
-                emailModel.EmailId = userName;
+                emailModel.EmailId = emailId;
                 emailModel.Subject = "Login details";
                 this.emailService.SendLoginDetails(emailModel);
             }
@@ -75,23 +75,23 @@ namespace SikkimGov.Platform.Business.Services
             return true;
         }
 
-        public void SendLoginDetails(string userName)
+        public void SendLoginDetails(string emailId)
         {
-            var user = this.userRepository.GetUserByUsername(userName);
+            var user = this.userRepository.GetUserByEmailId(emailId);
 
             if(user == null)
             {
-                throw new NotFoundException($"User with username {userName} does not exist.");
+                throw new NotFoundException($"User with emailId {emailId} does not exist.");
             }
 
             var password = this.cryptoService.Decrypt(user.Password);
 
             var emailModel = new LoginDetailsEmailModel();
 
-            emailModel.ReceiverEmail = userName;
-            emailModel.UserName = userName;
+            emailModel.ReceiverEmail = emailId;
+            emailModel.ReceiverName = emailId;
             emailModel.Password = password;
-            emailModel.EmailId = userName;
+            emailModel.EmailId = emailId;
             emailModel.Subject = "Login details";
             this.emailService.SendLoginDetails(emailModel);
         }

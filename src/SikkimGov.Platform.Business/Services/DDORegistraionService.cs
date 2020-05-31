@@ -104,7 +104,7 @@ namespace SikkimGov.Platform.Business.Services
                 var emailId = registration.EmailID;
 
                 this.repository.DeleteDDORegistration(registration);
-                this.userService.DeleteUserByUserName(emailId);
+                this.userService.DeleteUserByEmailId(emailId);
             }
             else
             {
