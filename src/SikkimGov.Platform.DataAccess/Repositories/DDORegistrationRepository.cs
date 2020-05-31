@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Runtime.InteropServices;
 using SikkimGov.Platform.DataAccess.Core;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.Domain;
@@ -33,10 +31,48 @@ namespace SikkimGov.Platform.DataAccess.Repositories
 
         public List<Models.DomainModels.DDORegistrationDetails> GetDDORegistrationsByStatus(bool? status)
         {
+            var query = from ddoReg in this.dbContext.DDORegistrations
+                        join ddoInfo in this.dbContext.DDOInfos
+                            on ddoReg.DDOCode equals ddoInfo.DDOCode into ddo
+                        from ddoCode in ddo.DefaultIfEmpty()
+                        join department in this.dbContext.Departments
+                            on ddoReg.DepartmentID equals department.DepartmentId into deptTemp
+                        from dept in deptTemp.DefaultIfEmpty()
+                        join district in this.dbContext.Districts
+                            on ddoReg.DistrictID equals district.DistrictId into districtTemp
+                        from dist in districtTemp.DefaultIfEmpty()
+                        join designation in this.dbContext.Designations
+                            on ddoReg.DesignationID equals designation.DesignationId into designationTemp
+                        from desgn in designationTemp.DefaultIfEmpty()
+                        select new Models.DomainModels.DDORegistrationDetails
+                        {
+                            Id = ddoReg.RegistrationID,
+                            DDOCode = ddoCode.DDOCode,
+                            DepartmentId = ddoReg.DepartmentID,
+                            DepartmentName = dept.DepartmentName,
+                            DistrictId = ddoReg.DistrictID,
+                            DistrictName = dist.DistrictName,
+                            DesignationId = ddoReg.DesignationID,
+                            DesginationName = desgn.DesignationName,
+                            OfficeAddress1 = ddoReg.OfficeAddress1,
+                            OfficeAddress2 = ddoReg.OfficeAddress2,
+                            TINNumber = ddoReg.TINNumber,
+                            TANNumber = ddoReg.TANNumber,
+                            EmailId = ddoReg.EmailID,
+                            ContactNumber = ddoReg.ContactNumber,
+                            Status = ddoReg.IsApproved,
+                            StatusName = ddoReg.IsApproved ? "APPROVED" : "PENDING",
+                            CreateAt = ddoReg.CreatedDate,
+                            ApprovedBy = ddoReg.ApprovedBy,
+                            ApprovedDate = ddoReg.ApprovedDate
+                        };
 
-            return new List<Models.DomainModels.DDORegistrationDetails>();
+            if(status.HasValue)
+            {
+                query = query.Where(item => item.Status == status);
+            }
 
-            //return this.dbContext.DDORegistrations.Where(registration => registration.IsApproved == status);
+            return query.ToList();
         }
 
         public bool DeleteDDORegistration(DDORegistration ddoRegistration)
