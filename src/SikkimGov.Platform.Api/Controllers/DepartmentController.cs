@@ -48,12 +48,14 @@ namespace SikkimGov.Platform.Api.Controllers
                     return new JsonResult(department);
                 else
                 {
+                    logger.LogWarning($"Department with ID {id} does not exist.");
                     this.Response.StatusCode = (int)System.Net.HttpStatusCode.NotFound;
                     return new JsonResult(new { Error = new { Message = $"Department with ID {id} does not exist." } });
                 }
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, $"Error while getting department with Id - {id}.");
                 this.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
