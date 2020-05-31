@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SikkimGov.Platform.DataAccess.Core;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
@@ -46,7 +44,38 @@ namespace SikkimGov.Platform.DataAccess.Repositories
 
         public List<Models.DomainModels.RCORegistrationDetails> GetRCORegistrationsByStatus(bool? status)
         {
-            return new List<Models.DomainModels.RCORegistrationDetails>();
+            var query = from rco in this.dbContext.RCORegistrations
+                        join department in this.dbContext.Departments
+                            on rco.DepartmentID equals department.DepartmentId into deptTemp
+                        from dept in deptTemp.DefaultIfEmpty()
+                        select new Models.DomainModels.RCORegistrationDetails
+                        {
+                            Id = rco.RegistrationID,
+                            AdminName = rco.AdminName,
+                            RegistrationType = rco.RegistrationType,
+                            DepartmentId = rco.DepartmentID,
+                            Department = dept.DepartmentName,
+                            Designation = rco.Designation,
+                            District = rco.District,
+                            EmailId = rco.EmailID,
+                            OfficeAddress1 = rco.OfficeAddress1,
+                            OfficeAddress2 = rco.OfficeAddress2,
+                            TANNumber = rco.TANNumber,
+                            TINNumber = rco.TINNumber,
+                            Status = rco.IsApproved,
+                            StatusName = rco.IsApproved ? "APPROVED" : "PENDING",
+                            ContactNumber = rco.ContactNumber,
+                            CreatedDate = rco.CreatedDate,
+                            ApprovedBy = rco.ApprovedBy,
+                            ApprovedDate = rco.ApprovedDate
+                        };
+
+            if(status.HasValue)
+            {
+                query = query.Where(item => item.Status == status.Value);
+            }
+
+            return query.ToList();
         }
 
         public RCORegistration UpdateRegistration(RCORegistration rcoRegistration)

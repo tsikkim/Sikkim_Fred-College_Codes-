@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Exceptions;
+using SikkimGov.Platform.Common.Utilities;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.ApiModels;
 using SikkimGov.Platform.Models.Domain;
@@ -49,16 +50,17 @@ namespace SikkimGov.Platform.Business.Services
             registration.RegistrationType = registrationModel.RegistrationType;
             registration.TINNumber = registrationModel.TINNumber;
             registration.TANNumber = registrationModel.TANNumber;
+            registration.CreatedDate = DateTime.Now;
 
             this.repository.CreateRCORegistration(registration);
 
-            //var user = new User();
-            //user.EmailId = registrationModel.EmailId;
-            //user.IsRCOUser = true;
-            //user.UserName = registrationModel.EmailId;
-            //user.EmailId = registrationModel.EmailId;
+            var user = new User();
+            user.EmailID = registrationModel.EmailId;
+            user.UserType = UserType.RCOUser;
+            user.MobileNumber = registrationModel.ContactNumber;
+            user.DepartmentID = registrationModel.DepartmentId;
 
-            //this.userService.CreateUser(user);
+            this.userService.CreateUser(user, PasswordGenerator.GenerateRandomPassword(8));
 
             return registrationModel;
         }
