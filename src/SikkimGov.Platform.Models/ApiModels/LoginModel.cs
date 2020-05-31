@@ -6,7 +6,7 @@ namespace SikkimGov.Platform.Models.ApiModels
     public class LoginModel
     {
         [Required]
-        public string UserName { get; set; }
+        public string EmailId { get; set; }
 
         [Required]
         public string Password { get; set; }

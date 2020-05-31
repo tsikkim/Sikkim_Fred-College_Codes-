@@ -29,7 +29,7 @@ namespace SikkimGov.Platform.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<SikkimFredDbContext>(options => options.UseSqlServer("Data Source=localhost; Initial Catalog=SikkimFredDatabase;User ID=user; Password=password;"));
+            services.AddDbContext<SikkimFredDbContext>(options => options.UseSqlServer(ConfigurationManager.ConnectionStrings["SikkiFredConnectionString"].ConnectionString));
 
             services.AddScoped<IDbContext, SikkimFredDbContext>();
 

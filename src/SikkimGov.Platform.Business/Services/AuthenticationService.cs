@@ -23,7 +23,7 @@ namespace SikkimGov.Platform.Business.Services
         {
             var result = new AuthenticationResult();
 
-            var user = this.userRepository.GetUserByUsername(loginModel.UserName);
+            var user = this.userRepository.GetUserByUsername(loginModel.EmailId);
 
             if (user != null)
             {

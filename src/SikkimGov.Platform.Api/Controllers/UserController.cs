@@ -2,6 +2,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.Models.ApiModels;
@@ -16,11 +17,13 @@ namespace SikkimGov.Platform.Api.Controllers
     {
         private readonly IUserService userService;
         private readonly IAuthenticationService authenticationService;
+        private readonly ILogger<UserController> logger;
 
-        public UserController(IUserService userService, IAuthenticationService authenticationService)
+        public UserController(IUserService userService, IAuthenticationService authenticationService, ILogger<UserController> logger)
         {
             this.userService = userService;
             this.authenticationService = authenticationService;
+            this.logger = logger;
         }
 
         [HttpPost]
@@ -58,6 +61,7 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch(UserAlreadyExistsException ex)
             {
+                logger.LogWarning(ex.Message);
                 this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return new JsonResult(new
                 {
@@ -74,16 +78,27 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Error while creating user.");
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
         }
 
-        [Route("exists/{userName}")]
+        [Route("exists/{emailId}")]
         [HttpGet]
-        public bool IsUserExists(string userName)
+        public ActionResult IsUserExists(string emailId)
         {
-            return this.userService.IsUserExists(userName);
+            try
+            {
+                var result = this.userService.IsUserExists(emailId);
+                return new ContentResult { Content = result.ToString() };
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Error while checkig if user existing with emailid - {emailId}.");
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
         }
 
         [Route("recoverpassword")]
@@ -92,21 +107,23 @@ namespace SikkimGov.Platform.Api.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(model.UserName))
+                if (string.IsNullOrEmpty(model.EmailId))
                 {
                     return BadRequest(new { Error = new { Message = "Username can not be empty." } });
                 }
 
-                this.userService.SendLoginDetails(model.UserName);
+                this.userService.SendLoginDetails(model.EmailId);
                 return new JsonResult(new { Msg = "success" });
             }
             catch (NotFoundException ex)
             {
+                logger.LogError(ex, $"Error while recovering password for emailid : {model.EmailId}.");
                 this.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return new JsonResult(new { Error = new { Message = ex.Message } });
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, $"Error while recovering password for emailid : {model.EmailId}.");
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
@@ -132,6 +149,7 @@ namespace SikkimGov.Platform.Api.Controllers
                     }
                     else
                     {
+                        logger.LogWarning("User could not be authenticated with provided credentials.");
                         this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                         return new JsonResult(new { Error = new { Message = "Invalid username or password." } });
                     }
@@ -139,6 +157,7 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, $"Error while login for emailid : {login.EmailId}.");
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
@@ -155,6 +174,7 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, $"Error while getting DDO Users.");
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
@@ -171,6 +191,7 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, $"Error while getting RCO Users.");
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
@@ -187,6 +208,7 @@ namespace SikkimGov.Platform.Api.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, $"Error while getting Admin Users.");
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
