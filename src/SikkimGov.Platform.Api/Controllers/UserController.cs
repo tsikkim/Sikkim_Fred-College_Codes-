@@ -44,6 +44,7 @@ namespace SikkimGov.Platform.Api.Controllers
                 newUser.DesingationID = model.DesignationId.Value;
                 newUser.DistrictID = model.DistrictId.Value;
                 newUser.MobileNumber = model.MobileNumber;
+                newUser.IsActive = true;
 
                 newUser.UserType = (UserType)Enum.Parse(typeof(UserType), model.UserType, true);
                 newUser = this.userService.CreateUser(newUser, model.Password);
