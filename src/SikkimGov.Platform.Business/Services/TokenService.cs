@@ -24,8 +24,6 @@ namespace SikkimGov.Platform.Business.Services
 
             string email = loginResult.EmailId;
 
-            //IdentityModelEventSource.ShowPII = true;
-
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -38,7 +36,10 @@ namespace SikkimGov.Platform.Business.Services
                         new Claim("IsAdmin", loginResult.IsAdmin.ToString()),
                         new Claim("UserID", Convert.ToString(loginResult.UserId)),
                         new Claim("IsDDO", Convert.ToString(loginResult.IsDDO)),
-                        new Claim("IsRCO", Convert.ToString(loginResult.IsRCO))
+                        new Claim("IsRCO", Convert.ToString(loginResult.IsRCO)),
+                        new Claim("DepartmentId", Convert.ToString(loginResult.DepartmentId)),
+                        new Claim("DistrictId", Convert.ToString(loginResult.DistrictId)),
+                        new Claim("DesignationId", Convert.ToString(loginResult.DesignationId))
                    }),
                 Expires = DateTime.UtcNow.AddMinutes(60),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
