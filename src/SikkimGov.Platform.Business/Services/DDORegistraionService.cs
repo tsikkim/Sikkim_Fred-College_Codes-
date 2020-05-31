@@ -48,6 +48,10 @@ namespace SikkimGov.Platform.Business.Services
             var user = new User();
             user.UserType = UserType.DDOUser;
             user.EmailID = registrationModel.EmailId;
+            user.MobileNumber = registrationModel.ContactNumber;
+            user.DepartmentID = registrationModel.DepartmentId;
+            user.DistrictID = registrationModel.DistrictId;
+            user.DesingationID = registrationModel.DesignationId;
             user.IsActive = false;
 
             this.userService.CreateUser(user, PasswordGenerator.GenerateRandomPassword(8));
