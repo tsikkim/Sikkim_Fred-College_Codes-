@@ -49,7 +49,12 @@ namespace SikkimGov.Platform.Business.Services
 
         public void DeleteUserByUserName(string userName)
         {
-            this.userRepository.DeleteUserByUserName(userName);
+            var user = this.userRepository.GetUserByUsername(userName);
+
+            if(user != null)
+            {
+                this.userRepository.DeleteUser(user);
+            }
         }
 
         public bool ApproveUser(string userName)
