@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.Models.ApiModels;
+using SikkimGov.Platform.Models.Domain;
+using SikkimGov.Platform.Models.DomainModels;
 
 namespace SikkimGov.Platform.Api.Controllers
 {
@@ -19,6 +21,62 @@ namespace SikkimGov.Platform.Api.Controllers
         {
             this.userService = userService;
             this.authenticationService = authenticationService;
+        }
+
+        [HttpPost]
+        public ActionResult Post([FromBody]CreateUserModel model)
+        {
+            try
+            {
+                if(this.userService.IsUserExists(model.EmailId))
+                {
+                    throw new UserAlreadyExistsException($"User with emailid {model.EmailId} already exists.");
+                }
+
+                var newUser = new Models.Domain.User();
+                newUser.FirstName = model.FirstName;
+                newUser.LastName = model.LastName;
+                newUser.EmailID = model.EmailId;
+                newUser.DepartmentID = model.DepartmentId.Value;
+                newUser.DesingationID = model.DesignationId.Value;
+                newUser.DistrictID = model.DistrictId.Value;
+                newUser.MobileNumber = model.MobileNumber;
+
+                newUser.UserType = (UserType)Enum.Parse(typeof(UserType), model.UserType, true);
+                newUser = this.userService.CreateUser(newUser, model.Password);
+
+                var userDetails = new UserDetails();
+                userDetails.Id = newUser.UserID;
+                userDetails.EmailId = newUser.EmailID;
+                userDetails.FirstName = newUser.FirstName;
+                userDetails.LastName = newUser.LastName;
+                userDetails.IsAdmin = newUser.UserType == UserType.Admin;
+                userDetails.IsSuperAdmin = newUser.UserType == UserType.SuperAdmin;
+                userDetails.UserType = model.UserType;
+
+                return new JsonResult(userDetails);
+            }
+            catch(UserAlreadyExistsException ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return new JsonResult(new
+                {
+                    Error = new { Message = ex.Message }
+                });
+            }
+            catch (NotFoundException ex)
+            {
+                this.Response.StatusCode = (int) HttpStatusCode.NotFound;
+                return new JsonResult(new
+                {
+                    Error = new { Message = ex.Message }
+                });
+            }
+            catch (Exception ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
         }
 
         [Route("exists/{userName}")]

@@ -12,11 +12,19 @@ namespace SikkimGov.Platform.Models.Domain
 
         public string EmailID { get; set; }
 
+        public string MobileNumber { get; set; }
+
         public string Password { get; set; }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public int? DepartmentID { get; set; }
+
+        public int? DistrictID { get; set; }
+
+        public int? DesingationID { get; set; }
 
         public UserType UserType { get; set; }
 

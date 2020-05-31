@@ -29,14 +29,15 @@ namespace SikkimGov.Platform.Business.Services
             return this.userRepository.IsUserExists(userName);
         }
 
-        public User CreateUser(User user)
+        public User CreateUser(User user, string password)
         {
-            user.CreatedDate = DateTime.Now;
-            user.IsActive = false;
-            if (string.IsNullOrEmpty(user.Password))
+            if(string.IsNullOrEmpty(password))
             {
-                user.Password = cryptoService.Encrypt(PasswordGenerator.GenerateRandomPassword(8));
+                throw new ArgumentNullException("password", "Password can not null or empty");
             }
+
+            user.CreatedDate = DateTime.Now;
+            user.Password = cryptoService.Encrypt(password);
 
             return this.userRepository.SaveUser(user);
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SikkimGov.Platform.Business.Services.Contracts;
 using SikkimGov.Platform.Common.Exceptions;
+using SikkimGov.Platform.Common.Utilities;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.ApiModels;
 using SikkimGov.Platform.Models.Domain;
@@ -45,13 +46,11 @@ namespace SikkimGov.Platform.Business.Services
             var newRegistration = this.repository.CreateDDORegistration(ddoRegistration);
 
             var user = new User();
-            //user.DDOCode = registrationModel.DDOCode;
             user.UserType = UserType.DDOUser;
             user.EmailID = registrationModel.EmailId;
+            user.IsActive = false;
 
-            //user.DepartmentId = registrationModel.DepartmentId;
-
-            this.userService.CreateUser(user);
+            this.userService.CreateUser(user, PasswordGenerator.GenerateRandomPassword(8));
 
             return newRegistration;
         }

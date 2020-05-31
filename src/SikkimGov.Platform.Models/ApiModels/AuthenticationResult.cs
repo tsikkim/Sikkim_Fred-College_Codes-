@@ -1,4 +1,6 @@
-﻿namespace SikkimGov.Platform.Models.ApiModels
+﻿using System.Runtime.Intrinsics.X86;
+
+namespace SikkimGov.Platform.Models.ApiModels
 {
     public class AuthenticationResult
     {
@@ -6,20 +8,26 @@
 
         public long UserId { get; set; }
 
-        public string UserName { get; set; }
+        public string EmailId { get; set; }
+
+        public int DepartmentId { get; set; }
+
+        public int DistrictId { get; set; }
+
+        public int DesignationId { get; set; }
 
         public bool IsSuperAdmin { get; set; }
 
         public bool IsAdmin { get; set; }
 
-        public long DepartmentId { get; set; }
-
         public bool IsDDO { get; set; }
 
         public bool IsRCO { get; set; }
 
-        public string DDOCode { get; set; }
-
         public string AccessToken { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
     }
 }

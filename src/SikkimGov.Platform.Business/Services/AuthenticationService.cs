@@ -35,11 +35,9 @@ namespace SikkimGov.Platform.Business.Services
                     this.userRepository.UpdateUser(user);
                     result.IsAuthenticated = true;
                     result.IsAdmin = user.UserType == Models.Domain.UserType.Admin;
-                    //result.DDOCode = user.DDOCode;
-                    //result.DepartmentId = user.DepartmentId.HasValue ? user.DepartmentId.Value : 0;
                     result.IsDDO = user.UserType == Models.Domain.UserType.DDOUser;
                     result.IsRCO = user.UserType == Models.Domain.UserType.RCOUser;
-                    result.IsSuperAdmin = user.UserType == Models.Domain.UserType.SupertAdmin;
+                    result.IsSuperAdmin = user.UserType == Models.Domain.UserType.SuperAdmin;
                     result.UserId = user.UserID;
 
                     var token = this.tokenService.GenerateJSONWebToken(result);

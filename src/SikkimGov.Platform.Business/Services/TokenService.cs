@@ -22,7 +22,7 @@ namespace SikkimGov.Platform.Business.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secret);
 
-            string email = loginResult.UserName;
+            string email = loginResult.EmailId;
 
             //IdentityModelEventSource.ShowPII = true;
 
@@ -30,18 +30,15 @@ namespace SikkimGov.Platform.Business.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                    {
-                        new Claim(ClaimTypes.Name, Convert.ToString(loginResult.UserName)),
-                        new Claim(ClaimTypes.GivenName, loginResult.UserName),
+                        new Claim(ClaimTypes.Surname, Convert.ToString(loginResult.LastName)),
+                        new Claim(ClaimTypes.GivenName, loginResult.FirstName),
                         new Claim(ClaimTypes.Email, email),
-                        //new Claim(ClaimTypes.Role, Convert.ToString(loginResult.Roles)),
                         new Claim(ClaimTypes.PrimarySid, Convert.ToString(loginResult.UserId)),
                         new Claim("IsSuperAdmin", loginResult.IsSuperAdmin.ToString()),
                         new Claim("IsAdmin", loginResult.IsAdmin.ToString()),
                         new Claim("UserID", Convert.ToString(loginResult.UserId)),
                         new Claim("IsDDO", Convert.ToString(loginResult.IsDDO)),
-                        new Claim("IsRCO", Convert.ToString(loginResult.IsRCO)),
-                        new Claim("DDOCode", Convert.ToString(loginResult.DDOCode)),
-                        new Claim("DepartmentId", Convert.ToString(loginResult.DepartmentId)),
+                        new Claim("IsRCO", Convert.ToString(loginResult.IsRCO))
                    }),
                 Expires = DateTime.UtcNow.AddMinutes(60),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
