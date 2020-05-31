@@ -9,8 +9,6 @@ namespace SikkimGov.Platform.Business.Services.Contracts
 
         User CreateUser(User user, string password);
 
-        void DeleteUser(long userId);
-
         void DeleteUserByUserName(string emailId);
 
         bool ApproveUser(string userName);

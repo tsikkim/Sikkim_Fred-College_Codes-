@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore.Internal;
 using SikkimGov.Platform.DataAccess.Core;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
@@ -59,41 +56,95 @@ namespace SikkimGov.Platform.DataAccess.Repositories
             var result = this.dbContext.SaveChanges();
             return result != 0;
         }
-        public void DeleteUser(long userId)
-        {
-            using (var connection = GetConnection())
-            {
-                using (var command = new SqlCommand(USER_DEL_COMMAND, connection))
-                {
-                    var parameter = new SqlParameter("@USER_ID", userId);
-                    command.Parameters.Add(parameter);
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                }
-            }
-        }
 
         public List<Models.DomainModels.UserDetails> GetDDOUserDetails()
         {
-            //DDO_USER_DETAILS_READ_COMMAND
-            return new List<Models.DomainModels.UserDetails>();
+            var query = from user in this.dbContext.Users
+                        join ddoReg in this.dbContext.DDORegistrations
+                            on user.EmailID equals ddoReg.EmailID
+                        join ddoInfo in this.dbContext.DDOInfos
+                            on ddoReg.DDOCode equals ddoInfo.DDOCode into ddoTemp
+                        from ddo in ddoTemp.DefaultIfEmpty()
+                        join dept in this.dbContext.Departments
+                            on ddoReg.DepartmentID equals dept.DepartmentId into deptTemp
+                        from department in deptTemp.DefaultIfEmpty()
+                        where user.IsActive && user.UserType == UserType.DDOUser
+                        select new Models.DomainModels.UserDetails
+                        {
+                            Id = user.UserID,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            DDOCode = ddo.DDOCode,
+                            DepartmentName = department.DepartmentName,
+                            EmailId = user.EmailID,
+                            UserType = user.UserType.ToString(),
+                            IsDDOUser = user.UserType == UserType.DDOUser,
+                            IsRCOUser = user.UserType == UserType.RCOUser,
+                            IsAdmin = user.UserType == UserType.Admin,
+                            IsSuperAdmin = user.UserType == UserType.SuperAdmin,
+                            Name = user.FirstName + " " + user.LastName
+                        };
+
+            return query.ToList();
         }
 
         public List<Models.DomainModels.UserDetails> GetRCOUserDetails()
         {
-            //RCO_USER_DETAILS_READ_COMMAND
-            var userDetailsList = new List<Models.DomainModels.UserDetails>();
+            var query = from user in this.dbContext.Users
+                        join rcoReg in this.dbContext.RCORegistrations
+                            on user.EmailID equals rcoReg.EmailID
+                        join dept in this.dbContext.Departments
+                            on rcoReg.DepartmentID equals dept.DepartmentId into deptTemp
+                        from department in deptTemp.DefaultIfEmpty()
+                        where user.IsActive && user.UserType == UserType.RCOUser
+                        select new Models.DomainModels.UserDetails
+                        {
+                            Id = user.UserID,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            DepartmentName = department.DepartmentName,
+                            EmailId = user.EmailID,
+                            UserType = user.UserType.ToString(),
+                            IsDDOUser = user.UserType == UserType.DDOUser,
+                            IsRCOUser = user.UserType == UserType.RCOUser,
+                            IsAdmin = user.UserType == UserType.Admin,
+                            IsSuperAdmin = user.UserType == UserType.SuperAdmin,
+                            Name = user.FirstName + " " + user.LastName,
+                            RegistrationType = rcoReg.RegistrationType
+                        };
 
-            return userDetailsList;
+            return query.ToList();
         }
 
         public List<Models.DomainModels.UserDetails> GetAdminUserDetails()
         {
-            //ADMIN_USER_DETAILS_READ_COMMAND
-            var userDetailsList = new List<Models.DomainModels.UserDetails>();
+            var query = from user in this.dbContext.Users
+                        join dept in this.dbContext.Departments
+                            on user.DepartmentID equals dept.DepartmentId into deptTemp
+                        from department in deptTemp.DefaultIfEmpty()
+                        join dist in this.dbContext.Districts
+                            on user.DistrictID equals dist.DistrictId into distTemp
+                        from district in distTemp.DefaultIfEmpty()
+                        join desig in this.dbContext.Designations
+                            on user.DepartmentID equals desig.DesignationId into desigTemp
+                        from designation in desigTemp.DefaultIfEmpty()
+                        where user.IsActive && (user.UserType == UserType.Admin || user.UserType == UserType.SuperAdmin)
+                        select new Models.DomainModels.UserDetails
+                        {
+                            Id = user.UserID,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            DepartmentName = department.DepartmentName,
+                            EmailId = user.EmailID,
+                            UserType = user.UserType.ToString(),
+                            IsDDOUser = user.UserType == UserType.DDOUser,
+                            IsRCOUser = user.UserType == UserType.RCOUser,
+                            IsAdmin = user.UserType == UserType.Admin,
+                            IsSuperAdmin = user.UserType == UserType.SuperAdmin,
+                            Name = user.FirstName + " " + user.LastName
+                        };
 
-            return userDetailsList;
+            return query.ToList();
         }
     }
 }

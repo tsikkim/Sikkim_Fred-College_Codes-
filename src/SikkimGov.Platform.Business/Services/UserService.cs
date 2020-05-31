@@ -42,11 +42,6 @@ namespace SikkimGov.Platform.Business.Services
             return this.userRepository.SaveUser(user);
         }
 
-        public void DeleteUser(long userId)
-        {
-            this.userRepository.DeleteUser(userId);
-        }
-
         public void DeleteUserByUserName(string userName)
         {
             var user = this.userRepository.GetUserByUsername(userName);

@@ -13,8 +13,6 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 
         bool DeleteUser(User user);
 
-        void DeleteUser(long userId);
-
         User GetUserByUsername(string userName);
 
         List<Models.DomainModels.UserDetails> GetDDOUserDetails();
