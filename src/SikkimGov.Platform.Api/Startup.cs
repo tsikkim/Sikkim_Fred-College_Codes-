@@ -42,6 +42,7 @@ namespace SikkimGov.Platform.Api
             services.AddScoped<ISBSPaymentRepository, SBSPaymentRepository>();
             services.AddScoped<ISBSReceiptRepository, SBSReceiptRepository>();
             services.AddScoped<IDesignationRepository, DesignationRepository>();
+            services.AddScoped<IDistrictRepository, DistrictRepository>();
 
             services.AddScoped<IRCORegistrationService, RCORegistrationService>();
             services.AddScoped<ITokenService, TokenService>();

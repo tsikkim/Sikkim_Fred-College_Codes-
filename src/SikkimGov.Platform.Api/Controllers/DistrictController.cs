@@ -8,30 +8,30 @@ namespace SikkimGov.Platform.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DesignationController : ControllerBase
+    public class DistrictController : ControllerBase
     {
-        private readonly IDesignationRepository designationRepository;
-        private readonly ILogger<DesignationController> logger;
+        private IDistrictRepository districtRepository;
+        private ILogger<DistrictController> logger;
 
-        public DesignationController(IDesignationRepository designationRepository, ILogger<DesignationController> logger)
+        public DistrictController(IDistrictRepository districtRepository, ILogger<DistrictController> logger)
         {
-            this.designationRepository = designationRepository;
+            this.districtRepository = districtRepository;
             this.logger = logger;
         }
 
-        // GET: api/<Designation>
+        // GET: api/<DistrictController>
         [HttpGet]
         public ActionResult Get()
         {
             try
             {
-                var designations = this.designationRepository.GetAllDesignations();
+                var districts = this.districtRepository.GetAllDistricts();
 
-                return new JsonResult(designations);
+                return new JsonResult(districts);
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "Error while getting all designations.");
+                this.logger.LogError(ex, "Error while getting all districts.");
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
