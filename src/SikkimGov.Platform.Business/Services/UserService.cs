@@ -59,13 +59,12 @@ namespace SikkimGov.Platform.Business.Services
 
         public bool ApproveUser(string userName)
         {
-            var result =  this.userRepository.UpdateUserStatusByUserName(userName, true);
-
             var user = this.userRepository.GetUserByUsername(userName);
 
             if (user != null)
             {
                 user.IsActive = true;
+
                 this.userRepository.UpdateUser(user);
 
                 var decryptedPassword = this.cryptoService.Decrypt(user.Password);
@@ -78,7 +77,7 @@ namespace SikkimGov.Platform.Business.Services
                 this.emailService.SendLoginDetails(emailModel);
             }
 
-            return result;
+            return true;
         }
 
         public void SendLoginDetails(string userName)
