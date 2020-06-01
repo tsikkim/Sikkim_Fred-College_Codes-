@@ -25,9 +25,9 @@ namespace SikkimGov.Platform.Models.ApiModels
         public string OfficeAddress1 { get; set; }
         
         public string OfficeAddress2 { get; set; }
+        
         public string TINNumber { get; set; }
         
-        [Required]
         public string TANNumber { get; set; }
         
         [Required]
