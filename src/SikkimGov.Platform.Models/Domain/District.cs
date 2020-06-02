@@ -5,8 +5,10 @@ namespace SikkimGov.Platform.Models.Domain
     [Table("District")]
     public class District
     {
-        public int DistrictId { get; set; }
+        [Column("DistrictId")]
+        public int Id { get; set; }
 
-        public string DistrictName { get; set; }
+        [Column("DistrictName")]
+        public string Name { get; set; }
     }
 }

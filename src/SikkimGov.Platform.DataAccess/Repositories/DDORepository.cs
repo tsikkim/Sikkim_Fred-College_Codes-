@@ -35,7 +35,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
         {
             var query = from ddo in this.dbContext.DDOInfos
                     join district in this.dbContext.Districts
-                    on ddo.DistrictID equals district.DistrictId
+                    on ddo.DistrictID equals district.Id
                     where ddo.DDOCode == ddoCode
                     select new DDODetails 
                     {
@@ -45,7 +45,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                         Name = ddo.Name,
                         DesignationId = ddo.DesignationID,
                         DistrictId = ddo.DistrictID,
-                        DistrictName = district.DistrictName
+                        DistrictName = district.Name
                     };
 
             return query.FirstOrDefault();

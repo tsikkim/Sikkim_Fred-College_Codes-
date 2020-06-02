@@ -5,8 +5,10 @@ namespace SikkimGov.Platform.Models.Domain
     [Table("Designation")]
     public class Designation
     {
-        public int DesignationId { get; set; }
+        [Column("DesignationId")]
+        public int Id { get; set; }
 
-        public string DesignationName { get; set; }
+        [Column("DesignationName")]
+        public string Name { get; set; }
     }
 }

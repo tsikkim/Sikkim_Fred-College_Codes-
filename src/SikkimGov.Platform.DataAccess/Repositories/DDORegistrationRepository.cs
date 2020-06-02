@@ -36,24 +36,24 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             on ddoReg.DDOCode equals ddoInfo.DDOCode into ddo
                         from ddoCode in ddo.DefaultIfEmpty()
                         join department in this.dbContext.Departments
-                            on ddoReg.DepartmentID equals department.DepartmentId into deptTemp
+                            on ddoReg.DepartmentID equals department.Id into deptTemp
                         from dept in deptTemp.DefaultIfEmpty()
                         join district in this.dbContext.Districts
-                            on ddoReg.DistrictID equals district.DistrictId into districtTemp
+                            on ddoReg.DistrictID equals district.Id into districtTemp
                         from dist in districtTemp.DefaultIfEmpty()
                         join designation in this.dbContext.Designations
-                            on ddoReg.DesignationID equals designation.DesignationId into designationTemp
+                            on ddoReg.DesignationID equals designation.Id into designationTemp
                         from desgn in designationTemp.DefaultIfEmpty()
                         select new Models.DomainModels.DDORegistrationDetails
                         {
                             Id = ddoReg.RegistrationID,
                             DDOCode = ddoCode.DDOCode,
                             DepartmentId = ddoReg.DepartmentID,
-                            DepartmentName = dept.DepartmentName,
+                            DepartmentName = dept.Name,
                             DistrictId = ddoReg.DistrictID,
-                            DistrictName = dist.DistrictName,
+                            DistrictName = dist.Name,
                             DesignationId = ddoReg.DesignationID,
-                            DesginationName = desgn.DesignationName,
+                            DesginationName = desgn.Name,
                             OfficeAddress1 = ddoReg.OfficeAddress1,
                             OfficeAddress2 = ddoReg.OfficeAddress2,
                             TINNumber = ddoReg.TINNumber,

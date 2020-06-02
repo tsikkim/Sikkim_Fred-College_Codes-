@@ -66,7 +66,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             on ddoReg.DDOCode equals ddoInfo.DDOCode into ddoTemp
                         from ddo in ddoTemp.DefaultIfEmpty()
                         join dept in this.dbContext.Departments
-                            on ddoReg.DepartmentID equals dept.DepartmentId into deptTemp
+                            on ddoReg.DepartmentID equals dept.Id into deptTemp
                         from department in deptTemp.DefaultIfEmpty()
                         where user.IsActive && user.UserType == UserType.DDOUser
                         select new Models.DomainModels.UserDetails
@@ -75,7 +75,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             FirstName = user.FirstName,
                             LastName = user.LastName,
                             DDOCode = ddo.DDOCode,
-                            DepartmentName = department.DepartmentName,
+                            DepartmentName = department.Name,
                             EmailId = user.EmailID,
                             UserType = user.UserType.ToString(),
                             IsDDOUser = user.UserType == UserType.DDOUser,
@@ -94,7 +94,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                         join rcoReg in this.dbContext.RCORegistrations
                             on user.EmailID equals rcoReg.EmailID
                         join dept in this.dbContext.Departments
-                            on rcoReg.DepartmentID equals dept.DepartmentId into deptTemp
+                            on rcoReg.DepartmentID equals dept.Id into deptTemp
                         from department in deptTemp.DefaultIfEmpty()
                         where user.IsActive && user.UserType == UserType.RCOUser
                         select new Models.DomainModels.UserDetails
@@ -102,7 +102,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             Id = user.UserID,
                             FirstName = user.FirstName,
                             LastName = user.LastName,
-                            DepartmentName = department.DepartmentName,
+                            DepartmentName = department.Name,
                             EmailId = user.EmailID,
                             UserType = user.UserType.ToString(),
                             IsDDOUser = user.UserType == UserType.DDOUser,
@@ -120,13 +120,13 @@ namespace SikkimGov.Platform.DataAccess.Repositories
         {
             var query = from user in this.dbContext.Users
                         join dept in this.dbContext.Departments
-                            on user.DepartmentID equals dept.DepartmentId into deptTemp
+                            on user.DepartmentID equals dept.Id into deptTemp
                         from department in deptTemp.DefaultIfEmpty()
                         join dist in this.dbContext.Districts
-                            on user.DistrictID equals dist.DistrictId into distTemp
+                            on user.DistrictID equals dist.Id into distTemp
                         from district in distTemp.DefaultIfEmpty()
                         join desig in this.dbContext.Designations
-                            on user.DepartmentID equals desig.DesignationId into desigTemp
+                            on user.DepartmentID equals desig.Id into desigTemp
                         from designation in desigTemp.DefaultIfEmpty()
                         where user.IsActive && (user.UserType == UserType.Admin || user.UserType == UserType.SuperAdmin)
                         select new Models.DomainModels.UserDetails
@@ -134,7 +134,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             Id = user.UserID,
                             FirstName = user.FirstName,
                             LastName = user.LastName,
-                            DepartmentName = department.DepartmentName,
+                            DepartmentName = department.Name,
                             EmailId = user.EmailID,
                             UserType = user.UserType.ToString(),
                             IsDDOUser = user.UserType == UserType.DDOUser,

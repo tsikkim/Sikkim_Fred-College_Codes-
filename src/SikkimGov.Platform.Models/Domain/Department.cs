@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SikkimGov.Platform.Models.Domain
 {
     [Table("Department")]
     public class Department
     {
-        public int DepartmentId { get; set; }
-        public string DepartmentName { get; set; }
+        [Column("DepartmentId")]
+        public int Id { get; set; }
+
+        [Column("DepartmentName")]
+        public string Name { get; set; }
     }
 }

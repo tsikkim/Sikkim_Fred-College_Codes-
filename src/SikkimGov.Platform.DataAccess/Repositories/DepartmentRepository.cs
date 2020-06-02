@@ -25,7 +25,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
         {
 
             return this.dbContext.Departments
-                        .FirstOrDefault(department => department.DepartmentId == departmentId);
+                        .FirstOrDefault(department => department.Id == departmentId);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
         {
             var query = from rco in this.dbContext.RCORegistrations
                         join department in this.dbContext.Departments
-                            on rco.DepartmentID equals department.DepartmentId into deptTemp
+                            on rco.DepartmentID equals department.Id into deptTemp
                         from dept in deptTemp.DefaultIfEmpty()
                         select new Models.DomainModels.RCORegistrationDetails
                         {
@@ -54,7 +54,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                             AdminName = rco.AdminName,
                             RegistrationType = rco.RegistrationType,
                             DepartmentId = rco.DepartmentID,
-                            Department = dept.DepartmentName,
+                            Department = dept.Name,
                             Designation = rco.Designation,
                             District = rco.District,
                             EmailId = rco.EmailID,
