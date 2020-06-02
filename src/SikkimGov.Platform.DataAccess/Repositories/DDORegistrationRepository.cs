@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices;
 using SikkimGov.Platform.DataAccess.Core;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.Domain;
@@ -116,6 +117,14 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                     return rowCount > 0;
                 }
             }
+        }
+
+        public void DeleteDDORegistrationsByEmailId(string emailId)
+        {
+            var ddoRegistrations = this.dbContext.DDORegistrations.Where(registration => registration.EmailID == emailId);
+
+            this.dbContext.DDORegistrations.RemoveRange(ddoRegistrations);
+            this.dbContext.SaveChanges();
         }
     }
 }

@@ -13,6 +13,8 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 
         DDORegistration GetDDORegistrationById(long ddoRegistrationId);
 
+        void DeleteDDORegistrationsByEmailId(string emailId);
+
         bool UpdateDDORegistrationStatus(long ddoRegistrationId, bool status, int updatedBy);
 
         DDORegistration UpdateRegistration(DDORegistration ddoRegistration);

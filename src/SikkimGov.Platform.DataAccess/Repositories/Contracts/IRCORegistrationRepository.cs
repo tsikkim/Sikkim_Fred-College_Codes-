@@ -14,5 +14,7 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
         RCORegistration UpdateRegistration(RCORegistration rcoRegistration);
 
         List<Models.DomainModels.RCORegistrationDetails> GetRCORegistrationsByStatus(bool? status);
+        
+        void DeleteRCORegistrationsByEmailId(string emailID);
     }
 }

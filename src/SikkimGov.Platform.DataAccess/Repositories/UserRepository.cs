@@ -36,6 +36,11 @@ namespace SikkimGov.Platform.DataAccess.Repositories
             return this.dbContext.Users.FirstOrDefault(user => user.EmailID == emailId);
         }
 
+        public User GetUserById(int id)
+        {
+            return this.dbContext.Users.FirstOrDefault(user => user.UserID == id);
+        }
+
         public User SaveUser(User user)
         {
             this.dbContext.Users.Add(user);

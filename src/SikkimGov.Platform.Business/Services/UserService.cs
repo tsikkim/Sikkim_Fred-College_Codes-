@@ -5,7 +5,6 @@ using SikkimGov.Platform.Common.Exceptions;
 using SikkimGov.Platform.Common.External.Contracts;
 using SikkimGov.Platform.Common.Models;
 using SikkimGov.Platform.Common.Security.Contracts;
-using SikkimGov.Platform.Common.Utilities;
 using SikkimGov.Platform.DataAccess.Repositories.Contracts;
 using SikkimGov.Platform.Models.Domain;
 
@@ -16,12 +15,20 @@ namespace SikkimGov.Platform.Business.Services
         private readonly IUserRepository userRepository;
         private readonly ICryptoService cryptoService;
         private readonly IEmailService emailService;
+        private readonly IRCORegistrationRepository rcoRegistrationRepository;
+        private readonly IDDORegistrationRepository ddoRegistrationRepository;
 
-        public UserService(IUserRepository userRepository, ICryptoService cryptoService, IEmailService emailService)
+        public UserService(IUserRepository userRepository, 
+                            ICryptoService cryptoService, 
+                            IEmailService emailService,
+                            IRCORegistrationRepository rcoRegistrationRepository,
+                            IDDORegistrationRepository ddoRegistrationRepository)
         {
             this.userRepository = userRepository;
             this.cryptoService = cryptoService;
             this.emailService = emailService;
+            this.rcoRegistrationRepository = rcoRegistrationRepository;
+            this.ddoRegistrationRepository = ddoRegistrationRepository;
         }
 
         public bool IsUserExists(string emailId)
@@ -50,6 +57,29 @@ namespace SikkimGov.Platform.Business.Services
             {
                 this.userRepository.DeleteUser(user);
             }
+        }
+
+        public void DeleteUserById(int userId)
+        {
+            var user = this.userRepository.GetUserById(userId);
+
+            if(user == null)
+            {
+                throw new NotFoundException($"User with id {userId} does not exist.");
+            }
+
+            var userEmail = user.EmailID;
+            if(user.UserType == UserType.DDOUser)
+            {
+                this.ddoRegistrationRepository.DeleteDDORegistrationsByEmailId(user.EmailID);
+            }
+            else if (user.UserType == UserType.RCOUser)
+            {
+                this.rcoRegistrationRepository.DeleteRCORegistrationsByEmailId(user.EmailID);
+            }
+
+            this.userRepository.DeleteUser(user);
+
         }
 
         public bool ApproveUser(string emailId)

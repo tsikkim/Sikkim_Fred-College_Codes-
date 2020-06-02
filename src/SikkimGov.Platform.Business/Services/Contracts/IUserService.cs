@@ -11,6 +11,8 @@ namespace SikkimGov.Platform.Business.Services.Contracts
 
         void DeleteUserByEmailId(string emailId);
 
+        void DeleteUserById(int userId);
+
         bool ApproveUser(string emailId);
 
         void SendLoginDetails(string emailId);

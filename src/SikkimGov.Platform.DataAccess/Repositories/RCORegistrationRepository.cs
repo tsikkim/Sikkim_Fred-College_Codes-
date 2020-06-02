@@ -85,5 +85,14 @@ namespace SikkimGov.Platform.DataAccess.Repositories
 
             return rcoRegistration;
         }
+
+        public void DeleteRCORegistrationsByEmailId(string emailID)
+        {
+            var registrations = this.dbContext.RCORegistrations.Where(registration => registration.EmailID == emailID);
+
+            this.dbContext.RCORegistrations.RemoveRange(registrations);
+            this.dbContext.SaveChanges();
+        }
+
     }
 }

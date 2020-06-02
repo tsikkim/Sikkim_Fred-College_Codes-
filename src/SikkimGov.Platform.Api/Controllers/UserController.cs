@@ -214,5 +214,27 @@ namespace SikkimGov.Platform.Api.Controllers
                 return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
             }
         }
+
+        [HttpDelete("{userId}")]
+        public ActionResult Delete(int userId)
+        {
+            try
+            {
+                this.userService.DeleteUserById(userId);
+                return new JsonResult(new { Msg = "success" });
+            }
+            catch(NotFoundException ex)
+            {
+                logger.LogError(ex, $"Error while deleting user with id : {userId}.");
+                this.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return new JsonResult(new { Error = new { Message = ex.Message } });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Error while deleting user with id : {userId}.");
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
+        }
     }
 }

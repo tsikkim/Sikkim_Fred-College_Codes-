@@ -15,6 +15,8 @@ namespace SikkimGov.Platform.DataAccess.Repositories.Contracts
 
         User GetUserByEmailId(string emailId);
 
+        User GetUserById(int id);
+
         List<Models.DomainModels.UserDetails> GetDDOUserDetails();
 
         List<Models.DomainModels.UserDetails> GetRCOUserDetails();
