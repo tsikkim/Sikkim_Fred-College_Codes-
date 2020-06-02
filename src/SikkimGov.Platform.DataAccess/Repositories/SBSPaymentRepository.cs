@@ -46,7 +46,11 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                         into amountPerMonth
                         where amountPerMonth.Key.Year == year
                         orderby amountPerMonth.Key.Year, amountPerMonth.Key.Month
-                        select new AmountPerMonth { Month = $"{amountPerMonth.Key.Month}-{amountPerMonth.Key.Year}", Amount = amountPerMonth.Sum(item => item.ChequeAmount) };
+                        select new AmountPerMonth 
+                        { 
+                            Month = $"{amountPerMonth.Key.Month}-{amountPerMonth.Key.Year}",
+                            Amount = amountPerMonth.Sum(item => item.ChequeAmount)
+                        };
 
             return query.ToList();
         }
@@ -58,7 +62,11 @@ namespace SikkimGov.Platform.DataAccess.Repositories
                         into amountPerMonth
                         where amountPerMonth.Key.Year >= startYear && amountPerMonth.Key.Year <= endYear
                         orderby amountPerMonth.Key.Year, amountPerMonth.Key.Month
-                        select new AmountPerMonth { Month = $"{amountPerMonth.Key.Month}-{amountPerMonth.Key.Year}", Amount = amountPerMonth.Sum(item => item.ChequeAmount) };
+                        select new AmountPerMonth 
+                        {
+                            Month = $"{amountPerMonth.Key.Month}-{amountPerMonth.Key.Year}",
+                            Amount = amountPerMonth.Sum(item => item.ChequeAmount)
+                        };
 
             return query.ToList();
         }
