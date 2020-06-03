@@ -24,6 +24,8 @@ namespace SikkimGov.Platform.DataAccess.Core
 
         DbSet<DDOInfo> DDOInfos { get; set; }
 
+        DbSet<Feedback> Feedbacks { get; set; }
+
         void AddEntities<T>(IList<T> entities) where T : class;
 
         int SaveChanges();

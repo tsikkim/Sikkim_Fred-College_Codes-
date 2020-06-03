@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using SikkimGov.Platform.Models.Domain;
 
 namespace SikkimGov.Platform.DataAccess.Core
@@ -36,6 +37,8 @@ namespace SikkimGov.Platform.DataAccess.Core
         public virtual DbSet<User> Users { get; set; }
 
         public virtual DbSet<DDOInfo> DDOInfos { get; set; }
+
+        public virtual DbSet<Feedback> Feedbacks { get; set; }
 
         public void AddEntities<T>(IList<T> entities) where T: class
         {

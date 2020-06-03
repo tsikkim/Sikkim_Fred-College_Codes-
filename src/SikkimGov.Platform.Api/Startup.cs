@@ -43,6 +43,7 @@ namespace SikkimGov.Platform.Api
             services.AddScoped<ISBSReceiptRepository, SBSReceiptRepository>();
             services.AddScoped<IDesignationRepository, DesignationRepository>();
             services.AddScoped<IDistrictRepository, DistrictRepository>();
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 
             services.AddScoped<IRCORegistrationService, RCORegistrationService>();
             services.AddScoped<ITokenService, TokenService>();
@@ -52,6 +53,8 @@ namespace SikkimGov.Platform.Api
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISBSFileService, SBSFileService>();
+            services.AddScoped<IFeedbackService, FeedbackService>();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
