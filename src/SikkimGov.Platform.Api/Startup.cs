@@ -54,6 +54,7 @@ namespace SikkimGov.Platform.Api
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISBSFileService, SBSFileService>();
             services.AddScoped<IFeedbackService, FeedbackService>();
+            services.AddScoped<IEmployeeApiService, EmployeeAPIService>();
 
             services.AddCors(options =>
             {
