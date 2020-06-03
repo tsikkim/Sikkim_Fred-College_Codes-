@@ -130,6 +130,47 @@ namespace SikkimGov.Platform.Api.Controllers
             }
         }
 
+        [Route("resetpassword/{id}")]
+        [HttpPost]
+        public ActionResult ResetPassword(int id, [FromBody]ResetPasswordModel model)
+        {
+            try
+            {
+                if(model.CurrentPassword == model.NewPassword)
+                {
+                    return BadRequest(new { Error = new { Message = "Current password can not be used as new password." } });
+                }
+
+                if (model.NewPassword != model.ConfirmPassword)
+                {
+                    return BadRequest(new { Error = new { Message = "New password and confirm password must be the same." } });
+                }
+
+                var result = this.userService.ResetPassword(id, model.CurrentPassword, model.NewPassword);
+
+                if(result)
+                {
+                    return new JsonResult(new { Msg = "success" });
+                }
+                else
+                {
+                    return BadRequest(new { Error = new { Message = "Current password is not valid." } });
+                }
+            }
+            catch (NotFoundException ex)
+            {
+                logger.LogError(ex, $"Error while resetting password for userid : {id}.");
+                this.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return new JsonResult(new { Error = new { Message = ex.Message } });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Error while resetting password for emailid : {id}.");
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return new JsonResult(new { Error = new { Message = "An unhandled error occured during request processing." } });
+            }
+        }
+
         [AllowAnonymous]
         [Route("login")]
         [HttpPost]

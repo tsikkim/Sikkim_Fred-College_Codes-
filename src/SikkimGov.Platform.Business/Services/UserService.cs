@@ -140,5 +140,31 @@ namespace SikkimGov.Platform.Business.Services
         {
             return this.userRepository.GetAdminUserDetails();
         }
+
+        public bool ResetPassword(int id, string currentPassword, string newPassword)
+        {
+            var user = this.userRepository.GetUserById(id);
+
+            if (user == null)
+            {
+                throw new NotFoundException($"User with id {id} does not exist.");
+            }
+
+            var encryptedPassword = this.cryptoService.Encrypt(currentPassword);
+
+            if (encryptedPassword != user.Password)
+            {
+                return false;
+            }
+            else
+            {
+                var newEncryptedPassword = this.cryptoService.Encrypt(newPassword);
+
+                user.Password = newEncryptedPassword;
+
+                this.userRepository.UpdateUser(user);
+                return true;
+            }
+        }
     }
 }

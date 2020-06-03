@@ -22,5 +22,7 @@ namespace SikkimGov.Platform.Business.Services.Contracts
         List<Models.DomainModels.UserDetails> GetRCOUserDetails();
 
         List<Models.DomainModels.UserDetails> GetAdminUserDetails();
+
+        bool ResetPassword(int id, string currentPassword, string newPassword);
     }
 }

@@ -37,8 +37,8 @@ namespace SikkimGov.Platform.Business.Services
                     result.DepartmentId = user.DepartmentID.GetValueOrDefault();
                     result.DesignationId = user.DesingationID.GetValueOrDefault();
                     result.DistrictId = user.DistrictID.GetValueOrDefault();
-                    result.FirstName = user.FirstName;
-                    result.LastName = user.LastName;
+                    result.FirstName = string.IsNullOrEmpty(user.FirstName) ? "" : user.FirstName;
+                    result.LastName = string.IsNullOrEmpty(user.LastName) ? "" : user.LastName;
                     result.IsAdmin = user.UserType == Models.Domain.UserType.Admin;
                     result.IsDDO = user.UserType == Models.Domain.UserType.DDOUser;
                     result.IsRCO = user.UserType == Models.Domain.UserType.RCOUser;
